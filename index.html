@@ -1,0 +1,1915 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BIOLOGÍA - Introducción a la Anatomía y Fisiología, Homeostasis y Sistemas (UCCuyo)</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- KaTeX for ultra-fast LaTeX formulas -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+    <!-- FontAwesome for biomedical icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Outfit & JetBrains Mono -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: #f7f9f6;
+        }
+        /* Paleta Institucional Verde Oliva UCCuyo */
+        .text-accent { color: #436600; }
+        .bg-accent { background-color: #436600; }
+        .bg-accent-hover:hover { background-color: #324d00; }
+        .bg-accent-light { background-color: #f1f6eb; }
+        .border-accent { border-color: #436600; }
+
+        .text-primary { color: #436600; }
+        .bg-primary { background-color: #436600; }
+        .bg-primary-dark { background-color: #324d00; }
+        .border-primary { border-color: #436600; }
+
+        .focus-accent:focus {
+            border-color: #436600;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(67, 102, 0, 0.2);
+        }
+
+        .code-font {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .custom-scroll::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scroll::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 10px;
+        }
+        .custom-scroll::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+        .custom-scroll::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        canvas {
+            touch-action: none;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between text-slate-800">
+
+    <!-- Cabecera Institucional UCCuyo -->
+    <header class="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-40">
+        <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-lg bg-accent flex items-center justify-center text-white font-bold text-xl shadow-md">
+                    B
+                </div>
+                <div>
+                    <h1 class="text-lg font-bold text-gray-800 tracking-wide uppercase">BIOLOGÍA</h1>
+                    <p class="text-xs text-gray-500 font-semibold">PreMédico (Facultad de Cs. Médicas - UCCuyo)</p>
+                </div>
+            </div>
+            <!-- Botón Guía de Uso -->
+            <button onclick="openTutorial()" class="flex items-center gap-1.5 px-3 py-1.5 bg-accent text-white text-xs font-semibold rounded-lg shadow-sm hover:opacity-90 transition">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                Guía de Uso
+            </button>
+        </div>
+    </header>
+
+    <!-- Contenido Principal con Menú Lateral -->
+    <main class="flex-1 max-w-7xl w-full mx-auto p-4 md:p-6 flex flex-col lg:flex-row gap-6">
+        
+        <!-- Menú de Navegación Lateral -->
+        <nav class="w-full lg:w-72 flex flex-row lg:flex-col gap-2 bg-white p-3.5 rounded-2xl shadow-sm border border-gray-200 overflow-x-auto lg:overflow-x-visible whitespace-nowrap lg:whitespace-normal sticky top-20 h-fit shrink-0">
+            <button onclick="switchTab(1)" id="btn-tab-1" class="bg-accent text-white flex-1 lg:flex-none text-left py-2.5 px-3.5 rounded-xl text-xs sm:text-sm font-semibold transition flex items-center gap-2.5 shadow-sm">
+                <i class="fa-solid fa-shapes text-sm w-4 text-center"></i>
+                <span>1. Fundamentos & Estructura-Función</span>
+            </button>
+            <button onclick="switchTab(2)" id="btn-tab-2" class="text-gray-700 hover:bg-gray-100 flex-1 lg:flex-none text-left py-2.5 px-3.5 rounded-xl text-xs sm:text-sm font-medium transition flex items-center gap-2.5">
+                <i class="fa-solid fa-layer-group text-sm w-4 text-center"></i>
+                <span>2. Jerarquía & Especialización Tisular</span>
+            </button>
+            <button onclick="switchTab(3)" id="btn-tab-3" class="text-gray-700 hover:bg-gray-100 flex-1 lg:flex-none text-left py-2.5 px-3.5 rounded-xl text-xs sm:text-sm font-medium transition flex items-center gap-2.5">
+                <i class="fa-solid fa-scale-balanced text-sm w-4 text-center"></i>
+                <span>3. Homeostasis & Mecanismos de Control</span>
+            </button>
+            <button onclick="switchTab(4)" id="btn-tab-4" class="text-gray-700 hover:bg-gray-100 flex-1 lg:flex-none text-left py-2.5 px-3.5 rounded-xl text-xs sm:text-sm font-medium transition flex items-center gap-2.5">
+                <i class="fa-solid fa-person-walking text-sm w-4 text-center"></i>
+                <span>4. Explorador de Sistemas Orgánicos</span>
+            </button>
+        </nav>
+
+        <!-- Contenedor Dinámico de Módulos -->
+        <div class="flex-1 w-full space-y-6 min-w-0">
+
+            <!-- ========================================================
+                 MÓDULO 1: FUNDAMENTOS DE ANATOMÍA Y FISIOLOGÍA
+                 ======================================================== -->
+            <section id="module-1" class="space-y-6">
+                <!-- Banner de Módulo -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200">
+                    <div class="flex items-center gap-2 text-accent font-semibold text-xs mb-1">
+                        <i class="fa-solid fa-book-medical"></i><span>Unidad 4: Epistemología y Morfofisiología Humana</span>
+                    </div>
+                    <h2 class="text-xl sm:text-2xl font-bold text-gray-900">Fundamentos de Anatomía y Fisiología: Eje Estructura-Función</h2>
+                    <p class="text-xs sm:text-sm text-gray-600 mt-1 leading-relaxed">
+                        Anatomía y fisiología representan las dos caras inseparables de una misma moneda biológica:
+                        <span class="italic font-semibold text-accent">«La estructura determina la función y la función moldea la estructura»</span>.
+                    </p>
+                </div>
+
+                <!-- Tarjetas Etimológicas -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Anatomía -->
+                    <div class="bg-white p-5 rounded-2xl shadow-sm border-l-4 border-accent border border-gray-200 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold uppercase tracking-wider text-accent bg-accent-light px-2.5 py-0.5 rounded-md border border-accent/20">Morfología Humana</span>
+                            <i class="fa-solid fa-scalpel text-xl text-accent"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-900">Anatomía</h3>
+                        <div class="text-xs code-font text-gray-700 bg-gray-50 p-2.5 rounded-xl border border-gray-100">
+                            <strong>Etimología:</strong> Del griego <em>ana</em> (ἀνά: a través de, separación) + <em>tomé</em> (τομή: corte, disección).
+                        </div>
+                        <p class="text-xs text-gray-600 leading-relaxed">
+                            Ciencia que investiga la arquitectura, morfología, dimensiones y relaciones espaciales y topográficas entre las partes corporales a nivel macroscópico y microscópico.
+                        </p>
+                        <div class="flex flex-wrap gap-1.5 pt-2 border-t border-gray-100 text-[11px] text-gray-600">
+                            <span class="px-2 py-0.5 bg-gray-100 rounded-md">Disección cadavérica</span>
+                            <span class="px-2 py-0.5 bg-gray-100 rounded-md">Relación espacial</span>
+                            <span class="px-2 py-0.5 bg-gray-100 rounded-md">Topografía médica</span>
+                        </div>
+                    </div>
+
+                    <!-- Fisiología -->
+                    <div class="bg-white p-5 rounded-2xl shadow-sm border-l-4 border-emerald-600 border border-gray-200 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold uppercase tracking-wider text-emerald-800 bg-emerald-50 px-2.5 py-0.5 rounded-md border border-emerald-200">Dinamismo Vital</span>
+                            <i class="fa-solid fa-wave-square text-xl text-emerald-600"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-900">Fisiología</h3>
+                        <div class="text-xs code-font text-gray-700 bg-gray-50 p-2.5 rounded-xl border border-gray-100">
+                            <strong>Etimología:</strong> Del griego <em>physis</em> (φύσις: naturaleza, origen vital) + <em>logos</em> (λόγος: estudio, tratado).
+                        </div>
+                        <p class="text-xs text-gray-600 leading-relaxed">
+                            Ciencia que estudia los procesos biofísicos y bioquímicos integrados que sostienen las funciones corporales y su regulación continua para preservar la vida.
+                        </p>
+                        <div class="flex flex-wrap gap-1.5 pt-2 border-t border-gray-100 text-[11px] text-gray-600">
+                            <span class="px-2 py-0.5 bg-gray-100 rounded-md">Biofísica de transporte</span>
+                            <span class="px-2 py-0.5 bg-gray-100 rounded-md">Control neuroendocrino</span>
+                            <span class="px-2 py-0.5 bg-gray-100 rounded-md">Homeostasis</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ramas Disciplinares con Filtro -->
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-200 space-y-4">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-gray-100 pb-3">
+                        <div>
+                            <h3 class="text-sm font-bold text-gray-900 flex items-center gap-2 uppercase tracking-wide">
+                                <i class="fa-solid fa-network-wired text-accent"></i>
+                                Ramas Disciplinares Requeridas en Medicina
+                            </h3>
+                            <p class="text-xs text-gray-500">Subdisciplinas que conforman la formación médica inicial en la UCCuyo.</p>
+                        </div>
+                        <div class="inline-flex p-1 bg-gray-100 rounded-xl">
+                            <button onclick="setBranchFilter('all')" id="btn-br-all" class="px-3 py-1 text-xs font-bold rounded-lg bg-accent text-white shadow-sm transition">Todas</button>
+                            <button onclick="setBranchFilter('anat')" id="btn-br-anat" class="px-3 py-1 text-xs font-medium text-gray-600 hover:text-gray-900 transition">Anatómicas</button>
+                            <button onclick="setBranchFilter('phys')" id="btn-br-phys" class="px-3 py-1 text-xs font-medium text-gray-600 hover:text-gray-900 transition">Fisiológicas</button>
+                        </div>
+                    </div>
+
+                    <div id="branches-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                        <!-- Generado dinámicamente con las 12 ramas completas -->
+                    </div>
+                </div>
+
+                <!-- Principio Unificador: Alvéolos Pulmonares y Ley de Fick -->
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-200 space-y-4">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-b border-gray-100 pb-3">
+                        <div>
+                            <span class="text-[11px] font-bold uppercase tracking-wider text-accent bg-accent-light px-2 py-0.5 rounded border border-accent/20">Principio Unificador</span>
+                            <h3 class="text-base font-bold text-gray-900 mt-1">Caso de Estudio: Alvéolos Pulmonares y Difusión Hematogaseosa</h3>
+                        </div>
+                        <div class="text-xs text-gray-500 code-font">
+                            $$\dot{V}_{\text{gas}} \propto \frac{A}{\Delta x}$$
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+                        <!-- Canvas Visual de Alvéolo y Capilar -->
+                        <div class="lg:col-span-7 bg-slate-900 rounded-xl p-4 flex flex-col items-center shadow-inner">
+                            <canvas id="alveolusCanvas" width="460" height="230" class="w-full h-56 rounded-lg bg-slate-950"></canvas>
+                            <div class="flex flex-wrap items-center justify-between w-full mt-2.5 text-[11px] text-slate-300 px-1">
+                                <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-cyan-400"></span> Luz Alveolar (Gas)</span>
+                                <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-rose-500"></span> Capilar y Glóbulos Rojos</span>
+                                <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span> Membrana Fina ($0.2\text{--}0.5\,\mu\text{m}$)</span>
+                            </div>
+                        </div>
+
+                        <!-- Controles de Fick y Diagnóstico Clínico -->
+                        <div class="lg:col-span-5 space-y-3.5">
+                            <div class="bg-gray-50 p-3.5 rounded-xl border border-gray-200 space-y-2.5 text-xs">
+                                <div>
+                                    <div class="flex justify-between items-center mb-1">
+                                        <span class="font-semibold text-gray-700">Espesor de Membrana ($\Delta x$):</span>
+                                        <span id="membraneThicknessLabel" class="code-font font-bold text-accent">0.3 μm (Normal)</span>
+                                    </div>
+                                    <input type="range" id="thicknessSlider" min="0.2" max="2.5" step="0.1" value="0.3" class="w-full h-1.5 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-[#436600]" oninput="Module1.updateThickness(this.value)">
+                                </div>
+
+                                <div>
+                                    <div class="flex justify-between items-center mb-1">
+                                        <span class="font-semibold text-gray-700">Superficie Alveolar Total ($A$):</span>
+                                        <span id="alveolarAreaLabel" class="code-font font-bold text-accent">70 m² (Fisiológico)</span>
+                                    </div>
+                                    <input type="range" id="areaSlider" min="15" max="90" step="5" value="70" class="w-full h-1.5 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-[#436600]" oninput="Module1.updateArea(this.value)">
+                                </div>
+                            </div>
+
+                            <!-- Caja KaTeX Ley de Fick -->
+                            <div class="bg-blue-50/70 p-3.5 rounded-xl border border-blue-100 text-xs space-y-2">
+                                <div class="font-bold text-blue-900 flex justify-between items-center">
+                                    <span>Ley de Difusión de Fick:</span>
+                                    <span id="fickDiffusionRate" class="code-font font-bold text-emerald-700 bg-white px-2 py-0.5 rounded border border-blue-200">100% (Óptima)</span>
+                                </div>
+                                <div class="text-center py-1 text-blue-950 font-semibold" id="fickFormulaBox">
+                                    $$\dot{V}_{\text{gas}} = \frac{A \cdot D \cdot (P_1 - P_2)}{\Delta x}$$
+                                </div>
+                                <p id="fickClinicalNote" class="text-[11px] leading-relaxed text-blue-900/90 bg-white/80 p-2 rounded-lg border border-blue-100">
+                                    <strong>Correlación clínica:</strong> La arquitectura alveolar con epitelio plano simple monomolecular optimiza la hematosis rápida ($\text{O}_2$ y $\text{CO}_2$). Un edema o fibrosis engrosa la membrana y precipita hipoxemia refractaria.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ========================================================
+                 MÓDULO 2: NIVELES DE ORGANIZACIÓN Y ESPECIALIZACIÓN TISULAR
+                 ======================================================== -->
+            <section id="module-2" class="space-y-6 hidden">
+                <!-- Banner de Módulo -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200">
+                    <div class="flex items-center gap-2 text-accent font-semibold text-xs mb-1">
+                        <i class="fa-solid fa-layer-group"></i><span>Unidad 4: Biología Celular y Jerarquía Tisular</span>
+                    </div>
+                    <h2 class="text-xl sm:text-2xl font-bold text-gray-900">Niveles de Organización Biológica y Especialización Tisular</h2>
+                    <p class="text-xs sm:text-sm text-gray-600 mt-1 leading-relaxed">
+                        Exploración jerárquica desde los bioelementos químicos hasta el individuo integrado. Análisis de los 4 tejidos básicos y las bases moleculares de la diferenciación celular.
+                    </p>
+                </div>
+
+                <!-- Escala Jerárquica Interactiva (6 niveles) -->
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-200 space-y-4">
+                    <h3 class="text-xs font-bold uppercase tracking-wider text-accent border-b border-gray-100 pb-2">
+                        Escala Jerárquica de Complejidad
+                    </h3>
+                    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2" id="levels-tab-container">
+                        <!-- Generado por JS -->
+                    </div>
+                    <div id="level-detail-box" class="bg-gray-50 p-4 rounded-xl border border-gray-200 flex flex-col md:flex-row gap-4 items-center">
+                        <!-- Detalle dinámico -->
+                    </div>
+                </div>
+
+                <!-- Los Cuatro Tejidos Básicos con Microscopía Canvas -->
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-200 space-y-4">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-b border-gray-100 pb-3">
+                        <div>
+                            <span class="text-[11px] font-bold uppercase tracking-wider text-accent bg-accent-light px-2 py-0.5 rounded border border-accent/20">Histología Médica</span>
+                            <h3 class="text-base font-bold text-gray-900 mt-1">Los Cuatro Tejidos Primarios del Cuerpo Humano</h3>
+                        </div>
+                        <span class="text-xs px-2.5 py-1 bg-gray-100 rounded-lg text-gray-600 font-mono">Microscopía Virtual 400x</span>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                        <!-- Selector y Ficha Histológica (5 cols) -->
+                        <div class="lg:col-span-5 space-y-3">
+                            <div class="grid grid-cols-2 gap-2" id="tissue-buttons-grid">
+                                <!-- Botones de tejidos generados dinámicamente -->
+                            </div>
+                            <div id="tissue-info-card" class="bg-gray-50 p-4 rounded-xl border border-gray-200 space-y-2 text-xs">
+                                <!-- Datos del tejido seleccionado -->
+                            </div>
+                        </div>
+
+                        <!-- Canvas Histológico (7 cols) -->
+                        <div class="lg:col-span-7 bg-slate-900 rounded-xl p-4 flex flex-col justify-between shadow-inner">
+                            <div class="flex justify-between items-center text-xs text-slate-300 pb-2 border-b border-slate-800">
+                                <span id="tissueCanvasTitle" class="font-bold text-white uppercase tracking-wider">TEJIDO EPITELIAL CILÍNDRICO SIMPLE</span>
+                                <button onclick="Module2.pulseMicroscopy()" class="px-2.5 py-1 bg-accent text-white text-[11px] font-semibold rounded hover:opacity-90 transition">
+                                    <i class="fa-solid fa-play mr-1"></i> Pulso Bioquímico
+                                </button>
+                            </div>
+                            <div class="py-2 flex items-center justify-center">
+                                <canvas id="tissueCanvas" width="460" height="240" class="w-full h-60 rounded-lg bg-slate-950"></canvas>
+                            </div>
+                            <div class="text-[11px] text-slate-400 bg-slate-950 p-2.5 rounded-lg border border-slate-800" id="tissueLegend">
+                                Células cilíndricas polarizadas con microvellosidades apicales y núcleos ovales en el tercio basal.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bases Moleculares de la Diferenciación Celular -->
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-200 space-y-4">
+                    <div class="border-b border-gray-100 pb-2">
+                        <span class="text-[11px] font-bold uppercase tracking-wider text-accent bg-accent-light px-2 py-0.5 rounded border border-accent/20">Genética y Ultraestructura</span>
+                        <h3 class="text-base font-bold text-gray-900 mt-1">Bases Moleculares de la Diferenciación: Dotación de Organelas Especializadas</h3>
+                        <p class="text-xs text-gray-600 mt-1">
+                            Todas las células somáticas comparten el mismo genoma; la especialización funcional depende de la expresión génica diferencial y la hipertrofia adaptativa de orgánulos específicos.
+                        </p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <!-- Célula Beta Pancreática -->
+                        <div class="bg-gray-50 p-4 rounded-xl border border-gray-200 space-y-3">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl bg-blue-100 text-blue-700 flex items-center justify-center font-bold text-lg">
+                                    <i class="fa-solid fa-syringe"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-gray-900 text-xs sm:text-sm">Célula Beta Pancreática (Secretora Peptídica)</h4>
+                                    <span class="text-[11px] text-gray-500">Misión: Síntesis masiva y secreción de insulina</span>
+                                </div>
+                            </div>
+                            <ul class="text-xs text-gray-700 space-y-2">
+                                <li class="flex items-start gap-2">
+                                    <i class="fa-solid fa-circle-check text-blue-600 mt-0.5 text-[11px]"></i>
+                                    <span><strong>Reticulo Endoplásmico Rugoso (RER):</strong> Altamente desarrollado para traslación de preproinsulina en ribosomas asociados.</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <i class="fa-solid fa-circle-check text-blue-600 mt-0.5 text-[11px]"></i>
+                                    <span><strong>Aparato de Golgi:</strong> Empaquetamiento, escisión proteolítica de proinsulina a insulina activa y péptido C.</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <i class="fa-solid fa-circle-check text-blue-600 mt-0.5 text-[11px]"></i>
+                                    <span><strong>Vesículas Secretoras:</strong> Exocitosis regulada dependiente del flujo de $\text{Ca}^{2+}$ citosólico ante hiperglucemia.</span>
+                                </li>
+                            </ul>
+                            <div class="p-2 rounded-lg bg-blue-50 text-[11px] code-font text-blue-900 border border-blue-100">
+                                Expresión activa: Gen <em>INS</em> (11p15.5) + Factores de transcripción PDX-1 y NeuroD1.
+                            </div>
+                        </div>
+
+                        <!-- Miocito Esquelético -->
+                        <div class="bg-gray-50 p-4 rounded-xl border border-gray-200 space-y-3">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl bg-rose-100 text-rose-700 flex items-center justify-center font-bold text-lg">
+                                    <i class="fa-solid fa-dumbbell"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-gray-900 text-xs sm:text-sm">Miocito Esquelético (Célula Contráctil)</h4>
+                                    <span class="text-[11px] text-gray-500">Misión: Tensión mecánica y contracción rápida</span>
+                                </div>
+                            </div>
+                            <ul class="text-xs text-gray-700 space-y-2">
+                                <li class="flex items-start gap-2">
+                                    <i class="fa-solid fa-circle-check text-rose-600 mt-0.5 text-[11px]"></i>
+                                    <span><strong>Miofibrillas (Sarcómeros):</strong> Densamente empaquetadas con filamentos de actina, miosina y discos Z.</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <i class="fa-solid fa-circle-check text-rose-600 mt-0.5 text-[11px]"></i>
+                                    <span><strong>Retículo Sarcoplásmico:</strong> Almacén de alta capacidad de iones $\text{Ca}^{2+}$ con receptores de rianodina.</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <i class="fa-solid fa-circle-check text-rose-600 mt-0.5 text-[11px]"></i>
+                                    <span><strong>Mitocondrias (Sarcosomas):</strong> Muy abundantes para síntesis aeróbica continua de $\text{ATP}$.</span>
+                                </li>
+                            </ul>
+                            <div class="p-2 rounded-lg bg-rose-50 text-[11px] code-font text-rose-900 border border-rose-100">
+                                Expresión activa: Cadenas pesadas de miosina (<em>MYH1</em>), actina alfa (<em>ACTA1</em>) y factor miogénico MyoD.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ========================================================
+                 MÓDULO 3: HOMEOSTASIS Y MECANISMOS DE CONTROL
+                 ======================================================== -->
+            <section id="module-3" class="space-y-6 hidden">
+                <!-- Banner de Módulo -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200">
+                    <div class="flex items-center gap-2 text-accent font-semibold text-xs mb-1">
+                        <i class="fa-solid fa-scale-balanced"></i><span>Unidad 4: Medio Interno y Asas de Retroalimentación</span>
+                    </div>
+                    <h2 class="text-xl sm:text-2xl font-bold text-gray-900">Homeostasis y Mecanismos de Control Fisiológico</h2>
+                    <p class="text-xs sm:text-sm text-gray-600 mt-1 leading-relaxed">
+                        El medio interno de Claude Bernard no es estático, sino un estado de equilibrio dinámico preservado por asas de retroalimentación negativa que neutralizan las perturbaciones del medio externo.
+                    </p>
+                </div>
+
+                <!-- Visor Interactivo de Compartimientos del Medio Interno -->
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-200 space-y-4">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-b border-gray-100 pb-3">
+                        <div>
+                            <span class="text-[11px] font-bold uppercase tracking-wider text-accent bg-accent-light px-2 py-0.5 rounded border border-accent/20">Claude Bernard & Walter Cannon</span>
+                            <h3 class="text-base font-bold text-gray-900 mt-1">Compartimientos Hídricos e Iónicos del Medio Interno (Adulto de 70 kg)</h3>
+                        </div>
+                        <span class="text-xs code-font bg-gray-100 px-2.5 py-1 rounded-lg text-gray-700">ACT = 42 Litros (60% del peso)</span>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="bg-gray-50 p-4 rounded-xl border border-gray-200 space-y-2 text-xs">
+                            <div class="flex justify-between items-center">
+                                <span class="font-bold text-gray-800">Líquido Intracelular (LIC)</span>
+                                <span class="code-font font-bold text-blue-700">28 L (40% peso)</span>
+                            </div>
+                            <p class="text-gray-600 text-[11px]">Espacio contenido dentro de todas las membranas plasmáticas celulares.</p>
+                            <div class="bg-white p-2 rounded border border-gray-200 text-[11px] code-font space-y-1">
+                                <div>• $[\text{K}^+]$: $140\,\text{mEq/L}$ (Catión principal)</div>
+                                <div>• $[\text{Na}^+]$: $14\,\text{mEq/L}$</div>
+                                <div>• Proteínas y fosfatos orgánicos abundantes</div>
+                            </div>
+                        </div>
+
+                        <div class="bg-gray-50 p-4 rounded-xl border border-gray-200 space-y-2 text-xs">
+                            <div class="flex justify-between items-center">
+                                <span class="font-bold text-gray-800">Líquido Intersticial (LEC)</span>
+                                <span class="code-font font-bold text-emerald-700">10.5 L (15% peso)</span>
+                            </div>
+                            <p class="text-gray-600 text-[11px]">Baña directamente las células en los tejidos; matriz extracelular.</p>
+                            <div class="bg-white p-2 rounded border border-gray-200 text-[11px] code-font space-y-1">
+                                <div>• $[\text{Na}^+]$: $142\,\text{mEq/L}$ (Catión rector)</div>
+                                <div>• $[\text{Cl}^-]$: $103\,\text{mEq/L}$ | $[\text{HCO}_3^-]$: $24\,\text{mEq/L}$</div>
+                                <div>• Escasas proteínas (filtra por capilares)</div>
+                            </div>
+                        </div>
+
+                        <div class="bg-gray-50 p-4 rounded-xl border border-gray-200 space-y-2 text-xs">
+                            <div class="flex justify-between items-center">
+                                <span class="font-bold text-gray-800">Plasma Sanguíneo (LEC)</span>
+                                <span class="code-font font-bold text-rose-700">3.5 L (5% peso)</span>
+                            </div>
+                            <p class="text-gray-600 text-[11px]">Fracción líquida de la sangre en el compartimiento intravascular.</p>
+                            <div class="bg-white p-2 rounded border border-gray-200 text-[11px] code-font space-y-1">
+                                <div>• Alta concentración de albúmina plasmática</div>
+                                <div>• Presión oncótica coloidosmótica: $\approx 28\,\text{mmHg}$</div>
+                                <div>• Volemia total con hematíes: $\approx 5.0\,\text{L}$</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Simuladores de Control Homeostático: Termorregulación y Ácido-Base -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <!-- Simulador 1: Termorregulación -->
+                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-200 space-y-4 flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-xs font-bold uppercase tracking-wider text-rose-700 bg-rose-50 px-2 py-0.5 rounded border border-rose-200">Bucle Homeostático 1</span>
+                                <div class="text-right">
+                                    <span id="currentTempBadge" class="text-lg font-bold code-font text-emerald-700">37.0°C</span>
+                                    <span class="block text-[10px] text-gray-500">Punto de Ajuste Hipotalámico</span>
+                                </div>
+                            </div>
+                            <h3 class="text-sm font-bold text-gray-900">Termorregulación Central ($37^\circ\text{C}$)</h3>
+                            <p class="text-xs text-gray-600 mt-1">
+                                Ajuste la temperatura ambiental externa para observar la respuesta del hipotálamo anterior y los efectores somáticos y vasculares:
+                            </p>
+
+                            <div class="bg-gray-50 p-3.5 rounded-xl border border-gray-200 my-3 space-y-1.5">
+                                <div class="flex justify-between text-xs">
+                                    <span class="text-gray-700 font-semibold">Temperatura Ambiental:</span>
+                                    <span id="ambientTempText" class="code-font font-bold text-accent">22°C (Confort)</span>
+                                </div>
+                                <input type="range" id="thermoSlider" min="0" max="45" step="1" value="22" class="w-full h-1.5 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-[#436600]" oninput="Module3.updateThermo(this.value)">
+                                <div class="flex justify-between text-[10px] text-gray-400 code-font">
+                                    <span>0°C (Frío Ártico)</span>
+                                    <span>22°C (Normotermia)</span>
+                                    <span>45°C (Calor Extremo)</span>
+                                </div>
+                            </div>
+
+                            <!-- Panel de Respuestas Eferentes -->
+                            <div id="thermoEffectorPanel" class="space-y-1.5 p-3 bg-gray-50 rounded-xl border border-gray-200 text-xs">
+                                <div class="font-bold text-gray-800 text-[11px] mb-1 flex items-center gap-1.5">
+                                    <i class="fa-solid fa-arrows-spin text-rose-600"></i> Efectores Fisiológicos Integrados:
+                                </div>
+                                <div id="thermoActionVasomotion" class="flex justify-between border-b border-gray-200/60 py-1 text-gray-700">
+                                    <span>Tono vascular cutáneo:</span>
+                                    <span class="font-semibold text-emerald-700">Tono basal equilibrado</span>
+                                </div>
+                                <div id="thermoActionGlands" class="flex justify-between border-b border-gray-200/60 py-1 text-gray-700">
+                                    <span>Glándulas sudoríparas:</span>
+                                    <span class="font-semibold text-gray-600">Inactivas (pérdida insensible)</span>
+                                </div>
+                                <div id="thermoActionMuscle" class="flex justify-between py-1 text-gray-700">
+                                    <span>Músculo esquelético:</span>
+                                    <span class="font-semibold text-gray-600">Tono muscular de reposo</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="pt-2 border-t border-gray-100 flex items-center justify-between text-[11px] text-gray-500">
+                            <span>Sensores: Termorreceptores (TRPV/TRPM)</span>
+                            <span class="font-bold text-rose-700">Retroalimentación Negativa</span>
+                        </div>
+                    </div>
+
+                    <!-- Simulador 2: Equilibrio Ácido-Base y Buffer Bicarbonato -->
+                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-200 space-y-4 flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-xs font-bold uppercase tracking-wider text-blue-700 bg-blue-50 px-2 py-0.5 rounded border border-blue-200">Bucle Homeostático 2</span>
+                                <div class="text-right">
+                                    <span id="currentPhBadge" class="text-lg font-bold code-font text-emerald-700">pH 7.40</span>
+                                    <span class="block text-[10px] text-gray-500">Rango: $7.35\text{--}7.45$</span>
+                                </div>
+                            </div>
+                            <h3 class="text-sm font-bold text-gray-900">Equilibrio Ácido-Base y Buffer Bicarbonato</h3>
+
+                            <div class="bg-gray-50 p-2.5 rounded-xl border border-gray-200 text-center text-xs code-font my-2" id="bufferEquationBox">
+                                $$\text{CO}_2 + \text{H}_2\text{O} \rightleftharpoons \text{H}_2\text{CO}_3 \rightleftharpoons \text{H}^+ + \text{HCO}_3^-$$
+                            </div>
+
+                            <p class="text-xs text-gray-600 mb-2">Seleccione una alteración metabólica o ventilatoria para verificar la compensación:</p>
+
+                            <div class="grid grid-cols-2 gap-2 text-xs">
+                                <button onclick="Module3.setAcidBase('hypovent')" id="ab-btn-hypovent" class="p-2 rounded-lg bg-gray-50 border border-gray-200 text-left hover:border-accent transition">
+                                    <div class="font-bold text-rose-700">Hipoventilación</div>
+                                    <div class="text-[10px] text-gray-500">Retención $\text{CO}_2$ (Acidosis resp.)</div>
+                                </button>
+                                <button onclick="Module3.setAcidBase('hypervent')" id="ab-btn-hypervent" class="p-2 rounded-lg bg-gray-50 border border-gray-200 text-left hover:border-accent transition">
+                                    <div class="font-bold text-cyan-700">Hiperventilación</div>
+                                    <div class="text-[10px] text-gray-500">Barrido $\text{CO}_2$ (Alcalosis resp.)</div>
+                                </button>
+                                <button onclick="Module3.setAcidBase('keto')" id="ab-btn-keto" class="p-2 rounded-lg bg-gray-50 border border-gray-200 text-left hover:border-accent transition">
+                                    <div class="font-bold text-amber-700">Cetoacidosis</div>
+                                    <div class="text-[10px] text-gray-500">Aumento $\text{H}^+$ metabólico</div>
+                                </button>
+                                <button onclick="Module3.setAcidBase('normal')" id="ab-btn-normal" class="p-2 rounded-lg bg-accent-light border border-accent/30 text-left transition">
+                                    <div class="font-bold text-accent">Homeostasis Normal</div>
+                                    <div class="text-[10px] text-accent">$\text{pH} = 7.40$, $[\text{HCO}_3^-]=24$</div>
+                                </button>
+                            </div>
+
+                            <div id="acidBaseFeedback" class="p-3 bg-gray-50 rounded-xl border border-gray-200 text-xs space-y-1 mt-3">
+                                <div class="flex justify-between text-gray-700">
+                                    <span>$p\text{CO}_2$ arterial:</span>
+                                    <span id="pco2Val" class="code-font font-bold text-blue-700">40 mmHg</span>
+                                </div>
+                                <div class="flex justify-between text-gray-700">
+                                    <span>Bicarbonato $[\text{HCO}_3^-]$:</span>
+                                    <span id="hco3Val" class="code-font font-bold text-emerald-700">24 mEq/L</span>
+                                </div>
+                                <div class="flex justify-between text-gray-700 pt-1 border-t border-gray-200">
+                                    <span>Mecanismo compensador:</span>
+                                    <span id="compensationStatus" class="font-semibold text-gray-800">Equilibrio fisiológico basal</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="pt-2 border-t border-gray-100 flex items-center justify-between text-[11px] text-gray-500">
+                            <span>Respuesta pulmonar (min) vs Renal (días)</span>
+                            <span class="code-font">Henderson-Hasselbalch</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cascada Fisiopatológica: Fibrosis Quística -->
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-200 space-y-3">
+                    <div>
+                        <span class="text-[11px] font-bold uppercase tracking-wider text-rose-700 bg-rose-50 px-2 py-0.5 rounded border border-rose-200">Fisiopatología del Desequilibrio</span>
+                        <h3 class="text-base font-bold text-gray-900 mt-1">Cascada Patológica: Del Defecto Molecular a la Falla Sistémica</h3>
+                        <p class="text-xs text-gray-600 mt-1">
+                            Modelo didáctico de la Fibrosis Quística: cómo una mutación puntual altera el transporte iónico celular y desemboca en una insuficiencia multiorgánica.
+                        </p>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs">
+                        <div class="p-3.5 bg-gray-50 rounded-xl border-l-4 border-blue-500 border border-gray-200 space-y-1">
+                            <span class="text-[10px] font-bold text-blue-700 code-font uppercase">1. Nivel Molecular</span>
+                            <h4 class="font-bold text-gray-900 text-xs">Mutación CFTR ($\Delta F508$)</h4>
+                            <p class="text-gray-600 text-[11px] leading-relaxed">
+                                Deleción del codón de fenilalanina 508. La proteína del canal de cloruro se pliega de forma anómala y es destruida en el proteasoma.
+                            </p>
+                        </div>
+                        <div class="p-3.5 bg-gray-50 rounded-xl border-l-4 border-emerald-500 border border-gray-200 space-y-1">
+                            <span class="text-[10px] font-bold text-emerald-700 code-font uppercase">2. Nivel Celular/Tisular</span>
+                            <h4 class="font-bold text-gray-900 text-xs">Disfunción Cl⁻ / Na⁺</h4>
+                            <p class="text-gray-600 text-[11px] leading-relaxed">
+                                Ausencia de secreción de $\text{Cl}^-$, hiperabsorción de $\text{Na}^+$ por el canal ENaC y desecación del moco en el epitelio ciliado.
+                            </p>
+                        </div>
+                        <div class="p-3.5 bg-gray-50 rounded-xl border-l-4 border-amber-500 border border-gray-200 space-y-1">
+                            <span class="text-[10px] font-bold text-amber-700 code-font uppercase">3. Nivel Orgánico</span>
+                            <h4 class="font-bold text-gray-900 text-xs">Obstrucción Mucosa</h4>
+                            <p class="text-gray-600 text-[11px] leading-relaxed">
+                                Tapones de secreciones espesas obstruyen los bronquiolos y los conductos pancreáticos de Wirsung con bronquiectasias e insuficiencia digestiva.
+                            </p>
+                        </div>
+                        <div class="p-3.5 bg-gray-50 rounded-xl border-l-4 border-rose-500 border border-gray-200 space-y-1">
+                            <span class="text-[10px] font-bold text-rose-700 code-font uppercase">4. Nivel Sistémico</span>
+                            <h4 class="font-bold text-gray-900 text-xs">Falla Multiorgánica</h4>
+                            <p class="text-gray-600 text-[11px] leading-relaxed">
+                                Infecciones pulmonares recurrentes por <em>Pseudomonas</em>, malabsorción de grasas/vitaminas, sudor hipertónico salado y colapso cardiorrespiratorio.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ========================================================
+                 MÓDULO 4: EXPLORADOR DE SISTEMAS ORGÁNICOS
+                 ======================================================== -->
+            <section id="module-4" class="space-y-6 hidden">
+                <!-- Banner de Módulo -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200">
+                    <div class="flex items-center gap-2 text-accent font-semibold text-xs mb-1">
+                        <i class="fa-solid fa-person-walking"></i><span>Unidad 4: Anatomía Sistémica e Integración Funcional</span>
+                    </div>
+                    <h2 class="text-xl sm:text-2xl font-bold text-gray-900">Explorador Interactivo de los Sistemas Orgánicos del Cuerpo Humano</h2>
+                    <p class="text-xs sm:text-sm text-gray-600 mt-1 leading-relaxed">
+                        Exploración exhaustiva de los sistemas corporales: órganos constituyentes, funciones fisiológicas, microarquitectura e integración holística para el sostén de la vida.
+                    </p>
+                </div>
+
+                <!-- Explorador de Sistemas: Lista y Detalle -->
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+                    <!-- Selector de Sistemas (4 cols) -->
+                    <div class="lg:col-span-4 bg-white p-4 rounded-2xl shadow-sm border border-gray-200 space-y-2">
+                        <div class="text-xs font-bold text-gray-700 uppercase tracking-wider mb-2 px-1 flex justify-between items-center">
+                            <span>Sistemas Corporales</span>
+                            <span class="text-[10px] bg-accent-light text-accent px-2 py-0.5 rounded font-mono font-bold">9 Sistemas</span>
+                        </div>
+                        <div class="space-y-1.5" id="systems-selector-list">
+                            <!-- Generado dinámicamente con los 9 sistemas requeridos -->
+                        </div>
+                    </div>
+
+                    <!-- Ficha Detallada del Sistema (8 cols) -->
+                    <div class="lg:col-span-8 bg-white p-6 rounded-2xl shadow-sm border border-gray-200 space-y-4" id="system-details-container">
+                        <!-- Poblado dinámicamente al hacer clic -->
+                    </div>
+                </div>
+
+                <!-- Comparativa Histológica y Fisiológica: Los 3 Tipos de Músculo -->
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-200 space-y-4">
+                    <div class="border-b border-gray-100 pb-2">
+                        <span class="text-[11px] font-bold uppercase tracking-wider text-accent bg-accent-light px-2 py-0.5 rounded border border-accent/20">Histología Especializada</span>
+                        <h3 class="text-base font-bold text-gray-900 mt-1">Diferenciación Histológica y Funcional: Los Tres Tejidos Musculares</h3>
+                        <p class="text-xs text-gray-600">Requerimiento clave para el examen de ingreso: control voluntario/involuntario, sarcomería y disposición celular.</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <!-- Esquelético -->
+                        <div class="bg-gray-50 p-4 rounded-xl border border-gray-200 space-y-2 text-xs">
+                            <div class="font-bold text-rose-700 uppercase tracking-wider flex justify-between items-center">
+                                <span>Estriado Esquelético</span>
+                                <span class="text-[10px] bg-rose-100 text-rose-800 px-2 py-0.5 rounded">Voluntario</span>
+                            </div>
+                            <div class="h-24 bg-slate-950 rounded-lg p-1.5 border border-gray-300 flex items-center justify-center">
+                                <canvas id="muscleSkelCanvas" width="220" height="90" class="w-full h-full"></canvas>
+                            </div>
+                            <ul class="text-gray-700 space-y-1 text-[11px]">
+                                <li>• <strong>Inervación:</strong> Sistema Nervioso Somático.</li>
+                                <li>• <strong>Célula:</strong> Fibras multinucleadas cilíndricas, núcleos periféricos.</li>
+                                <li>• <strong>Estrías:</strong> Sarcómeros evidentes (bandas A, I, Z).</li>
+                                <li>• <strong>Rol:</strong> Locomoción, postura y termogénesis rápida.</li>
+                            </ul>
+                        </div>
+
+                        <!-- Cardíaco -->
+                        <div class="bg-gray-50 p-4 rounded-xl border border-gray-200 space-y-2 text-xs">
+                            <div class="font-bold text-rose-700 uppercase tracking-wider flex justify-between items-center">
+                                <span>Estriado Cardíaco</span>
+                                <span class="text-[10px] bg-rose-100 text-rose-800 px-2 py-0.5 rounded">Involuntario</span>
+                            </div>
+                            <div class="h-24 bg-slate-950 rounded-lg p-1.5 border border-gray-300 flex items-center justify-center">
+                                <canvas id="muscleCardCanvas" width="220" height="90" class="w-full h-full"></canvas>
+                            </div>
+                            <ul class="text-gray-700 space-y-1 text-[11px]">
+                                <li>• <strong>Inervación:</strong> Sistema Autónomo + Marcapasos intrínseco.</li>
+                                <li>• <strong>Célula:</strong> Fibras apantalladas ramificadas (1-2 núcleos centrales).</li>
+                                <li>• <strong>Discos intercalares:</strong> Uniones comunicantes tipo <em>gap</em> y desmosomas.</li>
+                                <li>• <strong>Rol:</strong> Eyección continua de gasto cardíaco.</li>
+                            </ul>
+                        </div>
+
+                        <!-- Liso -->
+                        <div class="bg-gray-50 p-4 rounded-xl border border-gray-200 space-y-2 text-xs">
+                            <div class="font-bold text-emerald-700 uppercase tracking-wider flex justify-between items-center">
+                                <span>Liso (Visceral)</span>
+                                <span class="text-[10px] bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded">Involuntario</span>
+                            </div>
+                            <div class="h-24 bg-slate-950 rounded-lg p-1.5 border border-gray-300 flex items-center justify-center">
+                                <canvas id="muscleSmoothCanvas" width="220" height="90" class="w-full h-full"></canvas>
+                            </div>
+                            <ul class="text-gray-700 space-y-1 text-[11px]">
+                                <li>• <strong>Inervación:</strong> Sistema Autónomo, hormonas y tono miogénico.</li>
+                                <li>• <strong>Célula:</strong> Células fusiformes individuales, un solo núcleo central.</li>
+                                <li>• <strong>Sin sarcómeros:</strong> Cuerpos densos citoplásmicos con calmodulina.</li>
+                                <li>• <strong>Rol:</strong> Peristaltismo visceral y tono vascular sostenido.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sistemas de Comunicación y Control: Nervioso vs. Endocrino -->
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-200 space-y-4">
+                    <div class="border-b border-gray-100 pb-2">
+                        <span class="text-[11px] font-bold uppercase tracking-wider text-accent bg-accent-light px-2 py-0.5 rounded border border-accent/20">Integración y Control</span>
+                        <h3 class="text-base font-bold text-gray-900 mt-1">Sistemas de Comunicación: Nervioso (SNC/SNP) vs. Endocrino (Hormonal)</h3>
+                        <p class="text-xs text-gray-600">Comparación biofísica de las dos modalidades maestras de coordinación corporal.</p>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-xs border-collapse">
+                            <thead>
+                                <tr class="bg-gray-50 text-gray-700 border-b border-gray-200">
+                                    <th class="p-3 font-bold rounded-tl-lg">Parámetro de Comparación</th>
+                                    <th class="p-3 font-bold text-accent">Sistema Nervioso (SNC / SNP)</th>
+                                    <th class="p-3 font-bold text-purple-800 rounded-tr-lg">Sistema Endocrino</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-100 text-gray-700">
+                                <tr class="hover:bg-gray-50/50">
+                                    <td class="p-3 font-semibold text-gray-900">Mensajero Químico / Físico</td>
+                                    <td class="p-3">Neurotransmisores (acetilcolina, noradrenalina, GABA) y potenciales de acción bioeléctricos.</td>
+                                    <td class="p-3">Hormonas peptídicas, esteroideas y amínicas liberadas directamente al torrente sanguíneo.</td>
+                                </tr>
+                                <tr class="hover:bg-gray-50/50">
+                                    <td class="p-3 font-semibold text-gray-900">Vía de Conducción</td>
+                                    <td class="p-3">Axones neuronales mielinizados o amielínicos dirigidos a hendiduras sinápticas ($\approx 20\,\text{nm}$).</td>
+                                    <td class="p-3">Circulación sanguínea sistémica general (plasma).</td>
+                                </tr>
+                                <tr class="hover:bg-gray-50/50">
+                                    <td class="p-3 font-semibold text-gray-900">Velocidad de Respuesta</td>
+                                    <td class="p-3 code-font font-bold text-emerald-700">Ultrarrápida: Milisegundos ($1\text{--}100\,\text{ms}$)</td>
+                                    <td class="p-3 code-font font-bold text-purple-700">Lenta: Minutos, horas o días</td>
+                                </tr>
+                                <tr class="hover:bg-gray-50/50">
+                                    <td class="p-3 font-semibold text-gray-900">Duración del Efecto</td>
+                                    <td class="p-3">Corta y transitoria (recaptación o inactivación enzimática inmediata del neurotransmisor).</td>
+                                    <td class="p-3">Prolongada y sostenida en el tiempo (mientras persista la hormona circulante en plasma).</td>
+                                </tr>
+                                <tr class="hover:bg-gray-50/50">
+                                    <td class="p-3 font-semibold text-gray-900">Diana Específica</td>
+                                    <td class="p-3">Efectores anatómicos localizados: placa motora en músculo o glándula sináptica.</td>
+                                    <td class="p-3">Células diana diseminadas que expresen el receptor afín intracelular o de membrana.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Modal Tutorial / Guía de Uso -->
+    <div id="tutorial-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-2xl max-w-2xl w-full p-6 shadow-2xl space-y-4 max-h-[90vh] overflow-y-auto custom-scroll">
+            <div class="flex items-center justify-between border-b border-gray-100 pb-3">
+                <div class="flex items-center gap-2">
+                    <span class="w-3 h-3 rounded-full bg-accent"></span>
+                    <h3 class="text-base font-bold text-gray-900 uppercase tracking-wide">Guía de Uso del Simulador</h3>
+                </div>
+                <button onclick="closeTutorial()" class="text-gray-400 hover:text-gray-600 text-xl font-bold">&times;</button>
+            </div>
+            
+            <div class="space-y-4 text-xs text-gray-600 leading-relaxed">
+                <div class="bg-accent-light p-3.5 rounded-xl border border-accent/20">
+                    <span class="font-bold text-accent text-xs block mb-1">Propósito Pedagógico (Curso de Ingreso a Medicina - UCCuyo):</span>
+                    Este simulador interactivo entrena al aspirante a la carrera de Medicina en los cuatro pilares morfológicos y fisiológicos del ser humano: comprender la ley biológica de que la estructura determina la función, dominar la jerarquía biológica y la especialización de los tejidos, cuantificar las asas de retroalimentación homeostática (temperatura, pH y medio interno) y explorar holísticamente la arquitectura funcional de los sistemas corporales.
+                </div>
+
+                <div>
+                    <h4 class="font-bold text-gray-900 text-sm mb-1 text-accent">1. Módulo 1: Fundamentos y Eje Estructura-Función</h4>
+                    <ul class="list-disc list-inside space-y-1.5 ml-1 text-gray-600">
+                        <li><strong>Etimologías y Epistemología:</strong> Repase las raíces griegas clásicas de Anatomía (<em>ana</em> + <em>tomé</em>: separación y corte) y Fisiología (<em>physis</em> + <em>logos</em>: naturaleza y tratado).</li>
+                        <li><strong>Panel de Ramas Disciplinares:</strong> Filtre interactivamente entre las ramas anatómicas (macroscópica, microscópica, embriología, radiográfica y patológica) y fisiológicas (celular, neurofisiología, endocrinología, cardiovascular, inmunología, fisiología del ejercicio y fisiopatología).</li>
+                        <li><strong>Laboratorio de la Ley de Fick en Alvéolos Pulmonares:</strong> Modifique los controles de espesor de membrana ($\Delta x$) y área de intercambio ($A$) para observar en el lienzo Canvas la ventilación rítmica del alvéolo, el flujo dinámico de eritrocitos en el capilar y la difusión en tiempo real de moléculas de $\text{O}_2$, evaluando el riesgo clínico de edema pulmonar o fibrosis.</li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold text-gray-900 text-sm mb-1 text-accent">2. Módulo 2: Niveles de Organización y Especialización Tisular</h4>
+                    <ul class="list-disc list-inside space-y-1.5 ml-1 text-gray-600">
+                        <li><strong>Escala Jerárquica de Complejidad:</strong> Navegue a través de los 6 peldaños biológicos: nivel químico/molecular ($\text{C}, \text{H}, \text{O}, \text{N}$, agua, biomoléculas y $\text{ATP}$), celular (unidad anatómica y funcional), tisular, orgánico, de sistemas y organismo integrado.</li>
+                        <li><strong>Microscopía Virtual Dinámica (400x):</strong> Explore animaciones continuas de los 4 tejidos elementales: ondas de microvellosidades en epitelio cilíndrico, elasticidad y fibroblastos en tejido conectivo laxo, deslizamiento de filamentos en músculo estriado y propagación saltatoria del potencial de acción por los nódulos de Ranvier en la neurona motora. Presione <em>«Pulso Bioquímico»</em> para estimular la frecuencia celular.</li>
+                        <li><strong>Bases Moleculares de la Diferenciación:</strong> Compare la dotación selectiva de organelas entre la célula beta pancreática secretora de insulina (RER hipertrofiado, Golgi activo y exocitosis por $\text{Ca}^{2+}$) y el miocito contráctil (sarcómeros con actina/miosina, retículo sarcoplásmico y mitocondrias aeróbicas).</li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold text-gray-900 text-sm mb-1 text-accent">3. Módulo 3: Homeostasis y Mecanismos de Control</h4>
+                    <ul class="list-disc list-inside space-y-1.5 ml-1 text-gray-600">
+                        <li><strong>Compartimientos Hídricos del Medio Interno:</strong> Estudie la distribución del Agua Corporal Total en el adulto de $70\,\text{kg}$ ($42\,\text{L}$): Líquido Intracelular ($28\,\text{L}$) con alto $\text{K}^+$, frente al Líquido Extracelular ($14\,\text{L}$: intersticio $10.5\,\text{L}$ y plasma $3.5\,\text{L}$) dominado por $\text{Na}^+$ y $\text{Cl}^-$.</li>
+                        <li><strong>Simulador de Termorregulación ($37^\circ\text{C}$):</strong> Desplace el control de temperatura ambiental ($0^\circ\text{C}$ a $45^\circ\text{C}$) para verificar la respuesta del termostato hipotalámico: vasoconstricción/escalofríos involuntarios ante el frío vs. vasodilatación cutánea y diaforesis profusa ante el calor.</li>
+                        <li><strong>Equilibrio Ácido-Base y Buffer Bicarbonato:</strong> Active perturbaciones de hipoventilación, hiperventilación o cetoacidosis para evaluar las variaciones de $p\text{CO}_2$, $[\text{HCO}_3^-]$ y la compensación pulmonar rápida frente a la compensación renal sostenida.</li>
+                        <li><strong>Fisiopatología en Cascada:</strong> Analice el modelo de la Fibrosis Quística (mutación $\Delta F508$ del gen <em>CFTR</em> $\to$ disfunción de $\text{Cl}^-/\text{Na}^+$ $\to$ tapones mucosos orgánicos $\to$ falla cardiorrespiratoria sistémica).</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-bold text-gray-900 text-sm mb-1 text-accent">4. Módulo 4: Explorador de Sistemas Orgánicos</h4>
+                    <ul class="list-disc list-inside space-y-1.5 ml-1 text-gray-600">
+                        <li><strong>Navegación Sistémica Completa:</strong> Examine los órganos clave, funciones vitales y correlaciones clínicas de los 9 sistemas corporales: tegumentario, locomotor (óseo), muscular, nervioso, endocrino, cardiovascular, linfático/inmunitario, respiratorio y digestivo.</li>
+                        <li><strong>Cinemática Histológica Muscular:</strong> Compare en mini lienzos en tiempo real la contracción tetánica voluntaria del músculo esquelético, el automatismo rítmico del músculo cardíaco con discos intercalares y las ondas de peristaltismo lento del músculo liso visceral.</li>
+                        <li><strong>Coordinación Orgánica:</strong> Analice la tabla comparativa entre el Sistema Nervioso (control bioeléctrico localizado en milisegundos) y el Sistema Endocrino (regulación hormonal generalizada y duradera por vía sanguínea).</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="pt-3 border-t border-gray-100 flex justify-end">
+                <button onclick="closeTutorial()" class="px-5 py-2 bg-accent text-white text-xs font-semibold rounded-xl hover:bg-accent-hover transition shadow-sm">
+                    Entendido
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pie de Página Institucional Obligatorio -->
+    <footer class="bg-white border-t border-gray-200 py-4 mt-8 text-center text-xs text-gray-500">
+        Desarrollado por vesalio - Todos los derechos reservados
+    </footer>
+
+    <!-- Lógica JavaScript del Simulador -->
+    <script>
+        // Modal Tutorial
+        function openTutorial() {
+            document.getElementById('tutorial-modal').classList.remove('hidden');
+            renderLatex();
+        }
+        function closeTutorial() {
+            document.getElementById('tutorial-modal').classList.add('hidden');
+        }
+
+        // Renderizado KaTeX Seguro
+        function renderLatex() {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false }
+                    ],
+                    throwOnError: false
+                });
+            }
+        }
+
+        // Navegación entre Módulos
+        let currentModule = 1;
+        function switchTab(modNum) {
+            currentModule = modNum;
+            for (let i = 1; i <= 4; i++) {
+                const sec = document.getElementById(`module-${i}`);
+                const btn = document.getElementById(`btn-tab-${i}`);
+                if (i === modNum) {
+                    sec.classList.remove('hidden');
+                    btn.classList.add('bg-accent', 'text-white', 'shadow-sm');
+                    btn.classList.remove('text-gray-700', 'hover:bg-gray-100');
+                } else {
+                    sec.classList.add('hidden');
+                    btn.classList.remove('bg-accent', 'text-white', 'shadow-sm');
+                    btn.classList.add('text-gray-700', 'hover:bg-gray-100');
+                }
+            }
+
+            // Gestionar bucles de animación según pestaña activa
+            if (modNum === 1) {
+                Module1.startLoop();
+                Module2.stopLoop();
+                Module4.stopLoop();
+            } else if (modNum === 2) {
+                Module1.stopLoop();
+                Module2.startLoop();
+                Module4.stopLoop();
+            } else if (modNum === 3) {
+                Module1.stopLoop();
+                Module2.stopLoop();
+                Module4.stopLoop();
+            } else if (modNum === 4) {
+                Module1.stopLoop();
+                Module2.stopLoop();
+                Module4.startLoop();
+            }
+
+            setTimeout(renderLatex, 40);
+        }
+
+        // ==========================================
+        // DATASETS COMPLETOS
+        // ==========================================
+        const branchesData = [
+            // Anatómicas
+            { id: 'anat-1', type: 'anat', title: 'Anatomía Macroscópica', desc: 'Estudio de estructuras corporales visibles a simple vista mediante disección y topografía superficial.', icon: 'fa-eye' },
+            { id: 'anat-2', type: 'anat', title: 'Anatomía Microscópica', desc: 'Comprende la Citología (organización celular) y la Histología (los cuatro tejidos básicos y su matriz).', icon: 'fa-microscope' },
+            { id: 'anat-3', type: 'anat', title: 'Embriología y del Desarrollo', desc: 'Transformación morfológica desde la fecundación del cigoto y las 3 hojas blastodérmicas hasta el parto.', icon: 'fa-baby' },
+            { id: 'anat-4', type: 'anat', title: 'Anatomía Radiográfica', desc: 'Visualización no invasiva de estructuras corporales in vivo mediante rayos X, tomografía axial y resonancia magnética.', icon: 'fa-x-ray' },
+            { id: 'anat-5', type: 'anat', title: 'Anatomopatología', desc: 'Estudio de las alteraciones morfológicas macro y microscópicas inducidas en órganos por procesos patológicos.', icon: 'fa-disease' },
+            // Fisiológicas
+            { id: 'phys-1', type: 'phys', title: 'Fisiología Celular', desc: 'Biofísica del potencial de reposo transmembrana, transporte por bombas/canales iónicos y transducción.', icon: 'fa-atom' },
+            { id: 'phys-2', type: 'phys', title: 'Neurofisiología', desc: 'Génesis y propagación del potencial de acción axónico, sinapsis química/eléctrica y reflejos integrados.', icon: 'fa-brain' },
+            { id: 'phys-3', type: 'phys', title: 'Endocrinología', desc: 'Ejes hipotálamo-hipofisarios, hormonas peptídicas/esteroideas y asas de retroalimentación humoral negativa.', icon: 'fa-flask-vial' },
+            { id: 'phys-4', type: 'phys', title: 'Fisiología Cardiovascular', desc: 'Hemodinámica del ciclo cardíaco, gasto sistólico, leyes de Frank-Starling y regulación de la presión arterial.', icon: 'fa-heart-pulse' },
+            { id: 'phys-5', type: 'phys', title: 'Inmunología', desc: 'Mecanismos de defensa innata y adaptativa, procesamiento antigénico, linfocitos T/B, anticuerpos y tolerancia inmunológica.', icon: 'fa-shield-virus' },
+            { id: 'phys-6', type: 'phys', title: 'Fisiología del Ejercicio', desc: 'Respuestas adaptativas ante esfuerzo físico: consumo de oxígeno ($\\text{VO}_2\\text{ máx}$), umbral anaeróbico y reclutamiento metabólico.', icon: 'fa-person-running' },
+            { id: 'phys-7', type: 'phys', title: 'Fisiopatología', desc: 'Mecanismos funcionales anómalos que subyacen a los estados de enfermedad y quiebre de la homeostasis.', icon: 'fa-triangle-exclamation' }
+        ];
+
+        const hierarchyLevels = [
+            { id: 'quimico', name: 'Químico / Molecular', icon: 'fa-atom', tagline: 'Base atómica y biomolecular', detail: 'Átomos esenciales ($\\text{C}, \\text{H}, \\text{O}, \\text{N}, \\text{P}, \\text{S}, \\text{Ca}^{2+}, \\text{K}^+, \\text{Na}^+$) combinados para constituir agua ($\\text{H}_2\\text{O}$), glúcidos, lípidos, proteínas y ácidos nucleicos ($\\text{ADN}/\\text{ARN}$).', keyExample: 'Molécula de $\\text{ATP}$ y agua corporal (60% del peso).' },
+            { id: 'celular', name: 'Celular', icon: 'fa-cube', tagline: 'Unidad anatómica y funcional de la vida', detail: 'La menor estructura viva capaz de realizar metabolismo, excitabilidad, homeostasis y reproducción. Posee membrana bicapa lipídica y organelas especializadas.', keyExample: 'Eritrocito anucleado, neurona motora o cardiomiocito.' },
+            { id: 'tisular', name: 'Tisular', icon: 'fa-border-all', tagline: 'Cooperación celular especializada', detail: 'Conjunto de células de origen embriológico semejante inmersas en matriz extracelular (MEC) que cooperan para cumplir una función específica. Comprende los 4 tejidos básicos.', keyExample: 'Epitelio cilíndrico simple o tejido óseo trabecular.' },
+            { id: 'organico', name: 'Orgánico', icon: 'fa-shield-halved', tagline: 'Estructuras delimitadas complejas', detail: 'Estructuras delimitadas anatómicamente conformadas por dos o más tejidos primarios organizados para desempeñar funciones altamente especializadas.', keyExample: 'Estómago (mucosa epitelial + muscularis externa + serosa conectiva).' },
+            { id: 'sistemico', name: 'Sistemas y Aparatos', icon: 'fa-diagram-project', tagline: 'Integración coordinada multiorgánica', detail: 'Grupos de órganos asociados fisiológicamente para cumplir una misión corporal unificada indispensable (ej. transporte cardiovascular o hematosis).', keyExample: 'Aparato cardiovascular (corazón bomba + vasos conductores + sangre).' },
+            { id: 'organismo', name: 'Organismo Integrado', icon: 'fa-person', tagline: 'El ser humano como unidad viva completa', detail: 'El individuo biológico íntegro en el cual todos los sistemas operan de forma sinérgica, continua y homeostática frente al medio exterior.', keyExample: 'Homo sapiens: entidad biopsicosocial homeostática.' }
+        ];
+
+        const tissuesData = {
+            epitelial: {
+                name: 'Tejido Epitelial',
+                tag: 'Cobertura, Protección y Secreción',
+                desc: 'Células estrechamente unidas mediante complejos de unión (zonula occludens, desmosomas) con escasa o nula matriz extracelular entre ellas. Es avascular (se nutre por difusión a través de la lámina basal rica en colágeno IV y laminina). Posee polaridad apical, lateral y basal.',
+                classes: ['Plano simple (alvéolos, endotelio)', 'Cúbico simple (túbulos renales)', 'Cilíndrico con microvellosidades (intestino)', 'Estratificado queratinizado (epidermis)'],
+                renderType: 'epithelial'
+            },
+            conectivo: {
+                name: 'Tejido Conectivo (Conjuntivo)',
+                tag: 'Soporte, Cohesión y Vascularización',
+                desc: 'Tejido más abundante del organismo. A diferencia del epitelio, sus células están dispersas en una abundante matriz extracelular (MEC) compuesta por sustancia fundamental amorfa y fibras proteicas (colágeno, elastina, reticulina). Provee andamiaje mecánico y defensa.',
+                classes: ['Conectivo laxo y denso regular/irregular', 'Tejido adiposo (unilocular/multilocular)', 'Cartilaginoso (hialino, elástico, fibroso)', 'Óseo (cortical/trabecular) y sanguíneo'],
+                renderType: 'connective'
+            },
+            muscular: {
+                name: 'Tejido Muscular',
+                tag: 'Contracción Mecánica y Generación de Tensión',
+                desc: 'Especializado en convertir la energía química del $\\text{ATP}$ en trabajo mecánico y fuerza vectorial. Constituido por filamentos interactuantes de actina y miosina regulados por fluctuaciones del ion $\\text{Ca}^{2+}$ citoplásmico. Posee excitabilidad, contractilidad y elasticidad.',
+                classes: ['Estriado esquelético (voluntario, locomotor)', 'Estriado cardíaco (involuntario, miocárdico)', 'Liso (involuntario, paredes viscerales y vasculares)'],
+                renderType: 'muscle'
+            },
+            nervioso: {
+                name: 'Tejido Nervioso',
+                tag: 'Excitabilidad y Conducción Bioeléctrica',
+                desc: 'Red de alta velocidad encargada de percibir estímulos, procesar información y emitir señales eferentes reguladoras. Conformado por dos poblaciones celulares: neuronas (generación y conducción de potenciales de acción) y neuroglías (soporte metabólico, mielinización y defensa: astrocitos, oligodendrocitos, microglía).',
+                classes: ['Neuronas (sensitivas, interneuronas, motoras)', 'Neuroglía central (astrocitos, oligodendrocitos)', 'Neuroglía periférica (células de Schwann, satélites)'],
+                renderType: 'nervous'
+            }
+        };
+
+        const systemsData = [
+            {
+                id: 'tegumentario',
+                name: 'Sistema Tegumentario',
+                badge: 'Barrera Inmunológica Primaria & Termorregulación',
+                icon: 'fa-shield-virus',
+                organs: 'Piel (Epidermis acelular queratinizada + Dermis vascularizada con colágeno y elastina), Hipodermis y Anexos (pelos, uñas, glándulas sudoríparas ecrinas/apocrinas y sebáceas).',
+                functions: [
+                    'Barrera física impermeable contra patógenos bacterianos, radiación UV y deshidratación transepidérmica.',
+                    'Sensibilidad táctil, térmica y álgica profunda (corpúsculos de Meissner, Pacini, Ruffini y terminaciones libres).',
+                    'Termorregulación activa mediante vasodilatación/vasoconstricción del plexo dérmico y enfriamiento evaporativo por sudoración.',
+                    'Excreción de desechos metabólicos nitrogenados como el amoníaco ($\\text{NH}_3$) y síntesis cutánea de colecalciferol (vitamina D3).'
+                ],
+                clinicalLink: 'Las quemaduras extensas de segundo o tercer grado destruyen la barrera dermoepidérmica, causando shock hipovolémico por evaporación masiva de agua e infecciones graves por sepsis.'
+            },
+            {
+                id: 'esqueletico',
+                name: 'Sistema Esquelético (Locomotor)',
+                badge: 'Soporte, Palanca, Hematopoyesis & Reservorio de Ca²⁺',
+                icon: 'fa-bone',
+                organs: '206 huesos constantes en el adulto divididos en esqueleto axial (80) y apendicular (126), articulaciones diartrodiales con líquido sinovial y cartílagos articulares.',
+                functions: [
+                    'Armazón rígido de soporte estructural y palanca mecánica biomecánica movilizada por los tendones musculares.',
+                    'Protección visceral indispensable: cráneo óseo para el encéfalo, caja torácica para corazón y pulmones, canal vertebral para médula espinal.',
+                    'Hematopoyesis activa en médula ósea roja (costillas, esternón, crestas ilíacas y epífisis de huesos largos).',
+                    'Reservorio dinámico del 99% del calcio corporal ($\\text{Ca}^{2+}$) y el 85% del fósforo ($\\text{P}$), coordinado por la hormona paratiroidea ($\\text{PTH}$) y la calcitonina.'
+                ],
+                clinicalLink: 'En estados de hipocalcemia severa, la $\\text{PTH}$ activa a los osteoclastos para reabsorber matriz ósea y liberar $\\text{Ca}^{2+}$ al plasma, impidiendo espasmos musculares y tetania letal.'
+            },
+            {
+                id: 'muscular',
+                name: 'Sistema Muscular',
+                badge: 'Cinética Articular, Bomba Periférica & Termogénesis',
+                icon: 'fa-person-running',
+                organs: 'Más de 600 músculos esqueléticos provistos de fascículos musculares envueltos por epimisio, perimisio y endomisio, fijos a las palancas óseas mediante tendones y aponeurosis.',
+                functions: [
+                    'Generación de fuerza motriz voluntaria para el desplazamiento corporal y mantenimiento del tono postural antigravitatorio.',
+                    'Termogénesis refleja indispensable: hasta el 85% del calor corporal en reposo y estrés térmico proviene del trabajo metabólico de la contracción muscular (tiritar).',
+                    'Bomba muscular periférica en miembros inferiores que impulsa el retorno venoso de sangre hacia la aurícula derecha contra la gravedad.',
+                    'Contención mecánica de las cavidades corporales (pared anterolateral del abdomen).'
+                ],
+                clinicalLink: 'El rigor mortis cadavérico ocurre debido al agotamiento total de $\\text{ATP}$; sin este nucleótido, las cabezas de miosina quedan unidas irreversiblemente a la actina en el sarcómero.'
+            },
+            {
+                id: 'nervioso',
+                name: 'Sistema Nervioso (SNC & SNP)',
+                badge: 'Comunicación Bioeléctrica Ultrarrápida en Milisegundos',
+                icon: 'fa-brain',
+                organs: 'SNC (Encéfalo con cerebro, cerebelo y tronco encefálico; Médula espinal protegida por meninges) y SNP (12 pares de nervios craneales, 31 pares raquídeos, ganglios y plexos autónomos).',
+                functions: [
+                    'Adquisición de información sensorial aferente proveniente de receptores somáticos y viscerales.',
+                    'Procesamiento central, integración sináptica y emisión de órdenes motoras voluntarias e involuntarias.',
+                    'Coordinación de los reflejos homeostáticos vitales (centro respiratorio bulbar y reflejo barorreceptor de la presión arterial).',
+                    'División autónoma simpática (respuesta de lucha/huida) y parasimpática (reposo y asimilación digestiva).'
+                ],
+                clinicalLink: 'La hipoxia cerebral interrumpe la fosforilación oxidativa mitocondrial; sin $\\text{ATP}$, la bomba $\\text{Na}^+/\\text{K}^+$-ATPasa se detiene, provocando despolarización y edema citotóxico masivo en minutos.'
+            },
+            {
+                id: 'endocrino',
+                name: 'Sistema Endocrino',
+                badge: 'Regulación Humoral Prolongada por Vía Sanguínea',
+                icon: 'fa-flask',
+                organs: 'Glándula hipófisis (adenohipófisis y neurohipófisis), tiroides, paratiroides, glándulas suprarrenales, páncreas endocrino (islotes de Langerhans), gónadas, timo y glándula pineal.',
+                functions: [
+                    'Secreción de hormonas directamente al torrente circulatorio sin conductos excretores (diferencia cardinal con glándulas exocrinas).',
+                    'Regulación de la glucemia plasmática mediante insulina (hipoglucemiante) y glucagón (hiperglucemiante).',
+                    'Control del metabolismo basal y balance calórico por hormonas tiroideas ($T_3$ y $T_4$).',
+                    'Adaptación crónica al estrés físico y metabólico a través del eje hipotálamo-hipófiso-adrenal (CRH $\\to$ ACTH $\\to$ Cortisol).'
+                ],
+                clinicalLink: 'El páncreas es una glándula mixta (anficrina): su porción exocrina vierte jugo digestivo al duodeno, mientras sus islotes endocrinos secretan insulina y glucagón a los capilares sanguíneos.'
+            },
+            {
+                id: 'cardiovascular',
+                name: 'Sistema Cardiovascular',
+                badge: 'Bomba Hemodinámica, Transporte & Perfusión Tisular',
+                icon: 'fa-heart',
+                organs: 'Corazón tetracameral (aurículas y ventrículos con válvulas unidireccionales), red vascular (arterias elásticas/musculares, arteriolas de resistencia, capilares continuos/fenestrados y venas) y sangre.',
+                functions: [
+                    'Generación de gradientes hidrostáticos de presión para bombear el gasto cardíaco sistémico ($\\approx 5.0\\,\\text{L/min}$ en reposo).',
+                    'Transporte masivo de gases respiratorios ($\\text{O}_2, \\text{CO}_2$), nutrientes, electrolitos, hormonas y metabolitos de desecho (urea, creatinina).',
+                    'Intercambio transcapilar regulado por las fuerzas hidrostáticas y coloidosmóticas de Starling.',
+                    'Distribución homogénea del calor corporal desde el núcleo metabólico central hacia los plexos cutáneos.'
+                ],
+                clinicalLink: 'La desnutrición con hipoalbuminemia reduce drásticamente la presión oncótica coloidosmótica capilar ($\\pi_c$), provocando extravasación patológica de líquido y edema periférico grave.'
+            },
+            {
+                id: 'linfatico',
+                name: 'Sistema Linfático e Inmunitario',
+                badge: 'Drenaje Intersticial, Absorción de Grasas & Inmunidad',
+                icon: 'fa-shield-halved',
+                organs: 'Capilares y vasos linfáticos, linfa, ganglios linfáticos filtradores, bazo (pulpa blanca y roja), timo (maduración de linfocitos T), amígdalas y placas de Peyer.',
+                functions: [
+                    'Drenaje y retorno del líquido intersticial excedente ($\\approx 2\\text{ a }4\\,\\text{L/día}$) hacia el sistema venoso para prevenir el edema letal.',
+                    'Absorción de quilomicrones y lípidos de la dieta a través de los vasos quilíferos centrales en las vellosidades del intestino delgado.',
+                    'Vigilancia y defensa inmunológica adaptativa mediada por linfocitos T, linfocitos B (anticuerpos) y células presentadoras de antígeno.'
+                ],
+                clinicalLink: 'La extirpación quirúrgica o bloqueo tumoral de ganglios linfáticos axilares provoca linfedema crónico con hinchazón indurada por incapacidad de drenar el líquido intersticial excedente.'
+            },
+            {
+                id: 'respiratorio',
+                name: 'Sistema Respiratorio',
+                badge: 'Hematosis Alveolar & Regulación Ultrarrápida del pH',
+                icon: 'fa-lungs',
+                organs: 'Vías aéreas de conducción (fosas nasales, faringe, laringe, tráquea, bronquios primarios/segmentarios) y Zona respiratoria (bronquiolos respiratorios, conductos y $\\approx 300$ millones de alvéolos).',
+                functions: [
+                    'Ventilación mecánica: inspiración activa por contracción del diafragma y espiración elástica pasiva en reposo.',
+                    'Hematosis: difusión pasiva alveolar de $\\text{O}_2$ hacia los eritrocitos capilares y de $\\text{CO}_2$ hacia la luz alveolar a través de la membrana respiratoria.',
+                    'Acondicionamiento térmico, humidificación y filtrado mucociliar del aire inspirado.',
+                    'Control ultrarrápido del equilibrio ácido-base sanguíneo modulando la frecuencia y profundidad ventilatoria.'
+                ],
+                clinicalLink: 'En un neumotórax traumático, el ingreso de aire al espacio pleural anula la presión subatmosférica negativa ($\\approx -5\\,\\text{cm H}_2\\text{O}$), colapsando el pulmón por retracción elástica.'
+            },
+            {
+                id: 'digestivo',
+                name: 'Sistema Digestivo',
+                badge: 'Motilidad, Hidrólisis Enzimática & Absorción de Nutrientes',
+                icon: 'fa-utensils',
+                organs: 'Tubo digestivo continuo (boca, faringe, esófago, estómago, intestino delgado [duodeno, yeyuno, íleon], colon, recto y ano) y Glándulas anexas (hígado, vesícula biliar, páncreas exocrino y glándulas salivales).',
+                functions: [
+                    'Motilidad propulsiva y peristaltismo rítmico coordinado por el plexo mientérico de Auerbach.',
+                    'Hidrólisis química enzimática macromolecular (proteínas a aminoácidos, glúcidos a monosacáridos, lípidos a ácidos grasos).',
+                    'Absorción de monómeros, electrolitos y agua en los enterocitos provistos de chapa estriada con microvellosidades.',
+                    'Excreción de pigmentos biliares (bilirrubina degradada a estercobilina) y desechos no digeribles.'
+                ],
+                clinicalLink: 'La colecistectomía (extirpación de la vesícula biliar) no detiene la producción de bilis, ya que los hepatocitos la sintetizan continuamente; únicamente se pierde el reservorio de concentración.'
+            }
+        ];
+
+        // ==========================================
+        // CONTROLADORES DE CADA MÓDULO CON ANIMACIONES MEJORADAS
+        // ==========================================
+
+        // MÓDULO 1: ALVÉOLO PULMONAR CON FLUJO HEMODINÁMICO Y GASES EN TIEMPO REAL
+        const Module1 = {
+            thickness: 0.3,
+            area: 70,
+            animId: null,
+            time: 0,
+            rbcPositions: [0.1, 0.35, 0.6, 0.85],
+            gasParticles: [],
+            init() {
+                renderBranches('all');
+                this.initParticles();
+                this.startLoop();
+            },
+            initParticles() {
+                this.gasParticles = [];
+                for (let i = 0; i < 18; i++) {
+                    this.gasParticles.push({
+                        progress: Math.random(),
+                        laneY: 0.25 + Math.random() * 0.5,
+                        speed: 0.006 + Math.random() * 0.008,
+                        size: 2 + Math.random() * 2
+                    });
+                }
+            },
+            startLoop() {
+                if (this.animId) cancelAnimationFrame(this.animId);
+                const self = this;
+                function loop() {
+                    self.time += 0.03;
+                    self.draw();
+                    self.animId = requestAnimationFrame(loop);
+                }
+                this.animId = requestAnimationFrame(loop);
+            },
+            stopLoop() {
+                if (this.animId) {
+                    cancelAnimationFrame(this.animId);
+                    this.animId = null;
+                }
+            },
+            updateThickness(val) {
+                this.thickness = parseFloat(val);
+                const lbl = document.getElementById('membraneThicknessLabel');
+                lbl.innerText = `${this.thickness.toFixed(1)} μm ${this.thickness > 1.0 ? '(Edema / Fibrosis)' : '(Fisiológico)'}`;
+                this.updateFick();
+            },
+            updateArea(val) {
+                this.area = parseInt(val);
+                const lbl = document.getElementById('alveolarAreaLabel');
+                lbl.innerText = `${this.area} m² (${this.area} m² de intercambio)`;
+                this.updateFick();
+            },
+            updateFick() {
+                const baseRatio = 70 / 0.3;
+                const currentRatio = this.area / this.thickness;
+                const percent = Math.min(250, Math.round((currentRatio / baseRatio) * 100));
+
+                const rateBox = document.getElementById('fickDiffusionRate');
+                const noteBox = document.getElementById('fickClinicalNote');
+
+                rateBox.innerText = `${percent}% ${percent < 50 ? '(Insuficiencia Respiratoria)' : (percent > 110 ? '(Hematosis Aumentada)' : '(Óptima)')}`;
+                if (percent < 50) {
+                    rateBox.className = "code-font font-bold text-rose-600 bg-white px-2 py-0.5 rounded border border-rose-200";
+                    noteBox.innerHTML = "<strong>Alerta Clínica:</strong> La membrana engrosada (edema alveolar o fibrosis intersticial) o la destrucción de tabiques (enfisema pulmonar) desploma la tasa de hematosis por debajo del umbral metabólico crítico, requiriendo oxigenoterapia de urgencia.";
+                } else {
+                    rateBox.className = "code-font font-bold text-emerald-700 bg-white px-2 py-0.5 rounded border border-blue-200";
+                    noteBox.innerHTML = "<strong>Correlación clínica:</strong> La arquitectura alveolar con epitelio plano simple monomolecular optimiza la hematosis rápida ($\\text{O}_2$ y $\\text{CO}_2$). Un edema o fibrosis engrosa la membrana y precipita hipoxemia refractaria.";
+                }
+                renderLatex();
+            },
+            draw() {
+                const canvas = document.getElementById('alveolusCanvas');
+                if (!canvas) return;
+                const ctx = canvas.getContext('2d');
+                const w = canvas.width;
+                const h = canvas.height;
+
+                ctx.clearRect(0, 0, w, h);
+
+                // Expansión/retracción ventilatoria del saco alveolar
+                const breathFactor = 1 + Math.sin(this.time * 1.5) * 0.035;
+
+                // 1. Luz Alveolar (Izquierda)
+                const alvRadius = 78 * breathFactor;
+                const alvCenterX = w * 0.25;
+                const alvCenterY = h * 0.5;
+
+                // Gradiente en el alvéolo
+                const alvGrad = ctx.createRadialGradient(alvCenterX, alvCenterY, 10, alvCenterX, alvCenterY, alvRadius);
+                alvGrad.addColorStop(0, '#0c4a6e');
+                alvGrad.addColorStop(1, '#082f49');
+                ctx.fillStyle = alvGrad;
+                ctx.beginPath();
+                ctx.arc(alvCenterX, alvCenterY, alvRadius, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.strokeStyle = '#38bdf8';
+                ctx.lineWidth = 3;
+                ctx.stroke();
+
+                // Neumocitos Tipo I esquemáticos en el borde
+                ctx.strokeStyle = '#7dd3fc';
+                ctx.lineWidth = 1.5;
+                for (let a = 0; a < Math.PI * 2; a += Math.PI / 4) {
+                    const nx = alvCenterX + Math.cos(a) * (alvRadius - 4);
+                    const ny = alvCenterY + Math.sin(a) * (alvRadius - 4);
+                    ctx.fillStyle = '#38bdf8';
+                    ctx.beginPath();
+                    ctx.arc(nx, ny, 2.5, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+
+                ctx.fillStyle = '#bae6fd';
+                ctx.font = 'bold 11px Outfit, sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText('Luz Alveolar (Gas)', alvCenterX, alvCenterY - 6);
+                ctx.font = '10px JetBrains Mono, monospace';
+                ctx.fillText('PO₂ ≈ 104 mmHg', alvCenterX, alvCenterY + 10);
+                ctx.fillStyle = '#7dd3fc';
+                ctx.font = '9px Outfit, sans-serif';
+                ctx.fillText('Neumocitos I', alvCenterX, alvCenterY + 24);
+
+                // 2. Capilar Pulmonar (Derecha) con flujo continuo de sangre
+                const capWidth = 88;
+                const capX = w * 0.69;
+                ctx.fillStyle = '#450a0a';
+                ctx.fillRect(capX, 20, capWidth, h - 40);
+                ctx.strokeStyle = '#f87171';
+                ctx.lineWidth = 2;
+                ctx.strokeRect(capX, 20, capWidth, h - 40);
+
+                ctx.fillStyle = '#fecaca';
+                ctx.font = 'bold 11px Outfit, sans-serif';
+                ctx.fillText('Capilar', capX + capWidth / 2, 36);
+
+                // Flujo sanguíneo continuo de Glóbulos Rojos (Eritrocitos)
+                const flowSpeed = 0.005;
+                for (let i = 0; i < this.rbcPositions.length; i++) {
+                    this.rbcPositions[i] = (this.rbcPositions[i] + flowSpeed) % 1.0;
+                    const rY = 45 + this.rbcPositions[i] * (h - 90);
+
+                    // Transición de color: desoxigenado (violáceo) arriba a oxigenado (rojo brillante) al pasar la membrana
+                    const isOxygenated = this.rbcPositions[i] > 0.45;
+                    ctx.fillStyle = isOxygenated ? '#ef4444' : '#991b1b';
+                    ctx.beginPath();
+                    ctx.ellipse(capX + capWidth / 2, rY, 23, 10, 0.15, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.strokeStyle = isOxygenated ? '#fca5a5' : '#f87171';
+                    ctx.lineWidth = 1;
+                    ctx.stroke();
+
+                    ctx.fillStyle = '#ffffff';
+                    ctx.font = '9px JetBrains Mono, monospace';
+                    ctx.fillText(isOxygenated ? 'Hb·O₂' : 'Hb·CO₂', capX + capWidth / 2, rY + 3.5);
+                }
+
+                // 3. Membrana Respiratoria Alveolocapilar (Grosor dinámico y color según estado)
+                const memX = w * 0.47;
+                const visualMemWidth = Math.max(5, this.thickness * 20);
+                ctx.fillStyle = this.thickness > 1.0 ? '#f59e0b' : '#10b981';
+                ctx.fillRect(memX, 30, visualMemWidth, h - 60);
+                ctx.strokeStyle = this.thickness > 1.0 ? '#fbbf24' : '#6ee7b7';
+                ctx.lineWidth = 1.5;
+                ctx.strokeRect(memX, 30, visualMemWidth, h - 60);
+
+                // Rótulo del espesor
+                ctx.fillStyle = '#e2e8f0';
+                ctx.font = '10px JetBrains Mono, monospace';
+                ctx.fillText(`Δx = ${this.thickness.toFixed(1)} μm`, memX + visualMemWidth / 2, h - 14);
+
+                // 4. Partículas dinámicas de O2 difundiendo a través de la membrana
+                const startX = alvCenterX + alvRadius - 10;
+                const targetX = capX + 10;
+                const currentRatio = (this.area / this.thickness) / (70 / 0.3);
+                const particleCount = Math.max(4, Math.min(18, Math.round(18 * (currentRatio))));
+
+                for (let p = 0; p < particleCount; p++) {
+                    const part = this.gasParticles[p];
+                    part.progress += part.speed * (1.2 / Math.max(0.6, this.thickness));
+                    if (part.progress > 1) part.progress = 0;
+
+                    const curX = startX + part.progress * (targetX - startX);
+                    const curY = (h * part.laneY) + Math.sin(this.time * 3 + p) * 6;
+
+                    ctx.fillStyle = '#38bdf8';
+                    ctx.beginPath();
+                    ctx.arc(curX, curY, part.size, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.shadowColor = '#38bdf8';
+                    ctx.shadowBlur = 4;
+                }
+                ctx.shadowBlur = 0;
+
+                // Indicador de vector de difusión de O2
+                ctx.strokeStyle = '#38bdf8';
+                ctx.lineWidth = 2.5;
+                ctx.beginPath();
+                ctx.moveTo(w * 0.36, h * 0.5);
+                ctx.lineTo(w * 0.45, h * 0.5);
+                ctx.stroke();
+
+                ctx.fillStyle = '#38bdf8';
+                ctx.beginPath();
+                ctx.moveTo(w * 0.45, h * 0.5);
+                ctx.lineTo(w * 0.43, h * 0.5 - 4);
+                ctx.lineTo(w * 0.43, h * 0.5 + 4);
+                ctx.fill();
+
+                ctx.font = 'bold 10px Outfit, sans-serif';
+                ctx.fillText('Flujo O₂', w * 0.40, h * 0.45);
+            }
+        };
+
+        function setBranchFilter(filter) {
+            ['all', 'anat', 'phys'].forEach(f => {
+                const btn = document.getElementById(`btn-br-${f}`);
+                if (f === filter) {
+                    btn.className = "px-3 py-1 text-xs font-bold rounded-lg bg-accent text-white shadow-sm transition";
+                } else {
+                    btn.className = "px-3 py-1 text-xs font-medium text-gray-600 hover:text-gray-900 transition";
+                }
+            });
+            renderBranches(filter);
+        }
+
+        function renderBranches(filter) {
+            const container = document.getElementById('branches-grid');
+            const filtered = filter === 'all' ? branchesData : branchesData.filter(b => b.type === filter);
+            container.innerHTML = filtered.map(b => `
+                <div class="p-3.5 bg-gray-50 rounded-xl border-l-4 ${b.type === 'anat' ? 'border-accent' : 'border-emerald-600'} border border-gray-200 hover:bg-gray-100/70 transition space-y-1">
+                    <div class="flex items-center gap-2">
+                        <div class="w-7 h-7 rounded-lg ${b.type === 'anat' ? 'bg-accent/10 text-accent' : 'bg-emerald-100 text-emerald-700'} flex items-center justify-center text-xs">
+                            <i class="fa-solid ${b.icon}"></i>
+                        </div>
+                        <h4 class="font-bold text-gray-900 text-xs">${b.title}</h4>
+                    </div>
+                    <p class="text-[11px] text-gray-600 leading-relaxed">${b.desc}</p>
+                </div>
+            `).join('');
+            setTimeout(renderLatex, 30);
+        }
+
+        // MÓDULO 2: HISTOLOGÍA VIRTUAL CON MOVIMIENTO FLUIDO CONTINUO
+        const Module2 = {
+            currentTissue: 'epitelial',
+            pulsePhase: 0,
+            animId: null,
+            init() {
+                this.renderHierarchy();
+                this.selectLevel('quimico');
+                this.renderTissueButtons();
+                this.selectTissue('epitelial');
+            },
+            startLoop() {
+                if (this.animId) cancelAnimationFrame(this.animId);
+                const self = this;
+                function loop() {
+                    self.pulsePhase += 0.04;
+                    self.drawCanvas();
+                    self.animId = requestAnimationFrame(loop);
+                }
+                this.animId = requestAnimationFrame(loop);
+            },
+            stopLoop() {
+                if (this.animId) {
+                    cancelAnimationFrame(this.animId);
+                    this.animId = null;
+                }
+            },
+            renderHierarchy() {
+                const container = document.getElementById('levels-tab-container');
+                container.innerHTML = hierarchyLevels.map((lvl, index) => `
+                    <button onclick="Module2.selectLevel('${lvl.id}')" id="btn-lvl-${lvl.id}" class="p-2.5 rounded-xl bg-gray-50 border border-gray-200 text-left hover:border-accent transition flex flex-col justify-between">
+                        <div class="flex items-center justify-between w-full mb-1">
+                            <span class="text-[10px] code-font text-accent font-bold">0${index + 1}</span>
+                            <i class="fa-solid ${lvl.icon} text-gray-400 text-xs"></i>
+                        </div>
+                        <div class="text-xs font-bold text-gray-800 truncate">${lvl.name}</div>
+                    </button>
+                `).join('');
+            },
+            selectLevel(id) {
+                hierarchyLevels.forEach(lvl => {
+                    const b = document.getElementById(`btn-lvl-${lvl.id}`);
+                    if (b) {
+                        if (lvl.id === id) {
+                            b.className = "p-2.5 rounded-xl bg-accent-light border-2 border-accent text-left transition flex flex-col justify-between shadow-sm";
+                        } else {
+                            b.className = "p-2.5 rounded-xl bg-gray-50 border border-gray-200 text-left hover:border-accent transition flex flex-col justify-between";
+                        }
+                    }
+                });
+
+                const lvl = hierarchyLevels.find(l => l.id === id);
+                if (!lvl) return;
+
+                const detailBox = document.getElementById('level-detail-box');
+                detailBox.innerHTML = `
+                    <div class="w-14 h-14 rounded-2xl bg-accent-light text-accent flex items-center justify-center text-2xl shrink-0 border border-accent/30 shadow-sm">
+                        <i class="fa-solid ${lvl.icon}"></i>
+                    </div>
+                    <div class="space-y-1 flex-1 text-xs">
+                        <div class="flex items-center gap-2">
+                            <span class="text-[10px] font-bold uppercase tracking-wider text-accent bg-accent-light px-2 py-0.5 rounded border border-accent/20">${lvl.tagline}</span>
+                        </div>
+                        <h4 class="text-sm font-bold text-gray-900">${lvl.name}</h4>
+                        <p class="text-gray-600 leading-relaxed">${lvl.detail}</p>
+                        <div class="pt-1 text-[11px] code-font text-gray-700 flex items-center gap-1.5 border-t border-gray-200/60 mt-1">
+                            <i class="fa-solid fa-arrow-right text-accent text-[10px]"></i>
+                            <span class="font-bold text-gray-900">Ejemplo cardinal:</span> ${lvl.keyExample}
+                        </div>
+                    </div>
+                `;
+                setTimeout(renderLatex, 30);
+            },
+            renderTissueButtons() {
+                const container = document.getElementById('tissue-buttons-grid');
+                container.innerHTML = Object.keys(tissuesData).map(k => {
+                    const t = tissuesData[k];
+                    return `
+                        <button onclick="Module2.selectTissue('${k}')" id="btn-tissue-${k}" class="p-3 rounded-xl bg-gray-50 border border-gray-200 text-left hover:border-accent transition">
+                            <div class="text-xs font-bold text-gray-900">${t.name}</div>
+                            <div class="text-[10px] text-gray-500 truncate">${t.tag}</div>
+                        </button>
+                    `;
+                }).join('');
+            },
+            selectTissue(key) {
+                this.currentTissue = key;
+                Object.keys(tissuesData).forEach(k => {
+                    const b = document.getElementById(`btn-tissue-${k}`);
+                    if (b) {
+                        if (k === key) {
+                            b.className = "p-3 rounded-xl bg-accent-light border-2 border-accent text-left transition shadow-sm";
+                        } else {
+                            b.className = "p-3 rounded-xl bg-gray-50 border border-gray-200 text-left hover:border-accent transition";
+                        }
+                    }
+                });
+
+                const t = tissuesData[key];
+                const infoCard = document.getElementById('tissue-info-card');
+                infoCard.innerHTML = `
+                    <div>
+                        <span class="text-[10px] font-bold uppercase tracking-wider text-accent bg-accent-light px-2 py-0.5 rounded border border-accent/20">${t.tag}</span>
+                        <h4 class="text-sm font-bold text-gray-900 mt-1">${t.name}</h4>
+                    </div>
+                    <p class="text-[11px] text-gray-600 leading-relaxed">${t.desc}</p>
+                    <div class="pt-2 border-t border-gray-200">
+                        <div class="text-[11px] font-bold text-gray-700 mb-1">Subclasificaciones anatómicas:</div>
+                        <div class="flex flex-wrap gap-1">
+                            ${t.classes.map(c => `<span class="px-2 py-0.5 rounded bg-white text-gray-700 text-[10px] border border-gray-200">${c}</span>`).join('')}
+                        </div>
+                    </div>
+                `;
+
+                document.getElementById('tissueCanvasTitle').innerText = `${t.name.toUpperCase()} - MICROGRAFÍA 400X`;
+                this.drawCanvas();
+                setTimeout(renderLatex, 30);
+            },
+            drawCanvas() {
+                const canvas = document.getElementById('tissueCanvas');
+                if (!canvas) return;
+                const ctx = canvas.getContext('2d');
+                const w = canvas.width;
+                const h = canvas.height;
+
+                ctx.clearRect(0, 0, w, h);
+
+                if (this.currentTissue === 'epitelial') {
+                    // Epitelio Cilíndrico Simple con ondas ciliares/microvellosidades activas
+                    const baselY = h - 50;
+                    ctx.fillStyle = '#1e293b';
+                    ctx.fillRect(0, baselY, w, 50);
+
+                    // Lámina basal
+                    ctx.fillStyle = '#059669';
+                    ctx.fillRect(0, baselY - 5, w, 5);
+
+                    const cellCount = Math.floor(w / 40);
+                    const cellW = w / cellCount;
+                    for (let i = 0; i < cellCount; i++) {
+                        const x = i * cellW;
+                        ctx.fillStyle = '#0f172a';
+                        ctx.fillRect(x + 2, 60, cellW - 4, baselY - 65);
+                        ctx.strokeStyle = '#38bdf8';
+                        ctx.lineWidth = 1.5;
+                        ctx.strokeRect(x + 2, 60, cellW - 4, baselY - 65);
+
+                        // Núcleo basal con respiración metabólica
+                        const nScale = 1 + Math.sin(this.pulsePhase * 2 + i) * 0.05;
+                        ctx.fillStyle = '#a855f7';
+                        ctx.beginPath();
+                        ctx.ellipse(x + cellW / 2, baselY - 30, (cellW * 0.25) * nScale, 14 * nScale, 0, 0, Math.PI * 2);
+                        ctx.fill();
+
+                        // Microvellosidades con onda armónica continua
+                        ctx.strokeStyle = '#7dd3fc';
+                        ctx.lineWidth = 1.2;
+                        for (let m = 3; m < cellW - 3; m += 3) {
+                            const wave = Math.sin(this.pulsePhase * 3 + (x + m) * 0.1) * 3.5;
+                            ctx.beginPath();
+                            ctx.moveTo(x + m, 60);
+                            ctx.lineTo(x + m, 43 + wave);
+                            ctx.stroke();
+                        }
+                    }
+                    document.getElementById('tissueLegend').innerText = "Células cilíndricas simples con chapa estriada activa (microvellosidades oscilantes en barrido apical) sobre lámina basal acelular y conectivo subyacente.";
+
+                } else if (this.currentTissue === 'conectivo') {
+                    // Tejido Conectivo con ondulación tensional de fibras de colágeno y elastina
+                    ctx.fillStyle = '#0b1329';
+                    ctx.fillRect(0, 0, w, h);
+
+                    // Haces de colágeno elásticos
+                    ctx.strokeStyle = '#f43f5e';
+                    ctx.lineWidth = 3.5;
+                    for (let j = 0; j < 5; j++) {
+                        ctx.beginPath();
+                        ctx.moveTo(0, 35 + j * 42);
+                        for (let x = 0; x < w; x += 30) {
+                            const wave = Math.sin(this.pulsePhase + x * 0.05 + j) * 8;
+                            ctx.quadraticCurveTo(x + 15, 25 + j * 42 + wave, x + 30, 35 + j * 42);
+                        }
+                        ctx.stroke();
+                    }
+
+                    // Fibras elásticas delgadas
+                    ctx.strokeStyle = '#38bdf8';
+                    ctx.lineWidth = 1.2;
+                    for (let k = 0; k < 4; k++) {
+                        ctx.beginPath();
+                        ctx.moveTo(0, 60 + k * 45);
+                        for (let x = 0; x < w; x += 40) {
+                            const wave = Math.cos(this.pulsePhase * 1.5 + x * 0.08) * 4;
+                            ctx.lineTo(x + 20, 80 + k * 45 + wave);
+                            ctx.lineTo(x + 40, 60 + k * 45);
+                        }
+                        ctx.stroke();
+                    }
+
+                    // Fibroblastos metabólicamente activos
+                    for (let f = 0; f < 7; f++) {
+                        const fx = 35 + f * (w / 7);
+                        const fy = 50 + (f % 3) * 60 + Math.sin(this.pulsePhase + f) * 3;
+                        ctx.fillStyle = '#34d399';
+                        ctx.beginPath();
+                        ctx.ellipse(fx, fy, 20, 7, Math.PI / 6, 0, Math.PI * 2);
+                        ctx.fill();
+                        ctx.fillStyle = '#1e1b4b';
+                        ctx.beginPath();
+                        ctx.arc(fx, fy, 3.5, 0, Math.PI * 2);
+                        ctx.fill();
+                    }
+                    document.getElementById('tissueLegend').innerText = "Matriz extracelular dinámica: haces elásticos de colágeno tipo I (rojo), fibras elásticas (cian) y fibroblastos en síntesis continua.";
+
+                } else if (this.currentTissue === 'muscular') {
+                    // Contracción rítmica coordinada de sarcómeros
+                    const contractCycle = Math.sin(this.pulsePhase * 2.5);
+                    const sarcomereWidth = 12 + contractCycle * 2.5;
+
+                    const fiberH = 42;
+                    const fiberCount = Math.floor(h / fiberH);
+                    for (let i = 0; i < fiberCount; i++) {
+                        const y = i * fiberH + 5;
+                        ctx.fillStyle = '#881337';
+                        ctx.fillRect(0, y, w, fiberH - 7);
+
+                        // Estrías transversales
+                        for (let sx = 0; sx < w; sx += sarcomereWidth) {
+                            const half = sarcomereWidth / 2;
+                            ctx.fillStyle = '#be123c';
+                            ctx.fillRect(sx, y, half, fiberH - 7);
+                            ctx.fillStyle = '#fb7185';
+                            ctx.fillRect(sx + half, y, half, fiberH - 7);
+                        }
+
+                        // Núcleos periféricos
+                        ctx.fillStyle = '#67e8f9';
+                        ctx.beginPath();
+                        ctx.ellipse(40 + (i * 85) % (w - 80), y + 3, 14, 4.5, 0, 0, Math.PI * 2);
+                        ctx.fill();
+                    }
+                    document.getElementById('tissueLegend').innerText = "Fibras musculares esqueléticas en ciclo activo de contracción/relajación con acortamiento dinámico de sarcómeros (deslizamiento actina-miosina).";
+
+                } else if (this.currentTissue === 'nervioso') {
+                    // Transmisión bioeléctrica continua: Potencial de acción propagándose a lo largo del axón
+                    ctx.fillStyle = '#090d16';
+                    ctx.fillRect(0, 0, w, h);
+
+                    const somaX = w * 0.28;
+                    const somaY = h * 0.5;
+
+                    // Axón
+                    ctx.strokeStyle = '#f59e0b';
+                    ctx.lineWidth = 3.5;
+                    ctx.beginPath();
+                    ctx.moveTo(somaX, somaY);
+                    ctx.lineTo(w * 0.9, somaY);
+                    ctx.stroke();
+
+                    // Vainas de mielina
+                    for (let mx = somaX + 35; mx < w * 0.85; mx += 55) {
+                        ctx.fillStyle = '#38bdf8';
+                        ctx.fillRect(mx, somaY - 7, 40, 14);
+                        ctx.strokeStyle = '#bae6fd';
+                        ctx.strokeRect(mx, somaY - 7, 40, 14);
+                    }
+
+                    // Impulso bioeléctrico saltatorio viajando por los nódulos de Ranvier
+                    const wavePos = (this.pulsePhase * 60) % (w * 0.6);
+                    const sparkX = somaX + 20 + wavePos;
+                    ctx.fillStyle = '#fde047';
+                    ctx.beginPath();
+                    ctx.arc(sparkX, somaY, 6, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.shadowColor = '#fde047';
+                    ctx.shadowBlur = 10;
+                    ctx.shadowBlur = 0;
+
+                    // Dendritas
+                    ctx.strokeStyle = '#fbbf24';
+                    ctx.lineWidth = 2;
+                    for (let d = 0; d < 6; d++) {
+                        const angle = Math.PI * 0.7 + (d * 0.3);
+                        ctx.beginPath();
+                        ctx.moveTo(somaX, somaY);
+                        ctx.lineTo(somaX + Math.cos(angle) * 65, somaY + Math.sin(angle) * 65);
+                        ctx.stroke();
+                    }
+
+                    // Soma
+                    ctx.fillStyle = '#d97706';
+                    ctx.beginPath();
+                    ctx.arc(somaX, somaY, 24, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    // Núcleo
+                    ctx.fillStyle = '#1e1b4b';
+                    ctx.beginPath();
+                    ctx.arc(somaX, somaY, 9, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.fillStyle = '#ec4899';
+                    ctx.beginPath();
+                    ctx.arc(somaX - 2, somaY - 2, 2.5, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    // Astrocitos gliales
+                    ctx.fillStyle = '#10b981';
+                    ctx.beginPath();
+                    ctx.arc(w * 0.78, h * 0.25, 7, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    document.getElementById('tissueLegend').innerText = "Neurona motora multipolar con conducción saltatoria del potencial de acción a través de los nódulos de Ranvier hacia el terminal presináptico.";
+                }
+            },
+            pulseMicroscopy() {
+                // Estimulación rápida de frecuencia
+                this.pulsePhase += 1.5;
+                this.drawCanvas();
+            }
+        };
+
+        // MÓDULO 3
+        const Module3 = {
+            updateThermo(val) {
+                const amb = parseInt(val);
+                document.getElementById('ambientTempText').innerText = `${amb}°C`;
+                const tempBadge = document.getElementById('currentTempBadge');
+                const vaso = document.getElementById('thermoActionVasomotion');
+                const sweat = document.getElementById('thermoActionGlands');
+                const muscle = document.getElementById('thermoActionMuscle');
+
+                if (amb < 15) {
+                    tempBadge.innerText = (37.0 - (15 - amb) * 0.05).toFixed(1) + "°C";
+                    tempBadge.className = "text-lg font-bold code-font text-cyan-700 animate-pulse";
+                    vaso.innerHTML = `<span>Tono vascular cutáneo:</span> <span class="font-bold text-cyan-700">Vasoconstricción periférica intensa</span>`;
+                    sweat.innerHTML = `<span>Glándulas sudoríparas:</span> <span class="font-semibold text-gray-400">Totalmente inhibidas</span>`;
+                    muscle.innerHTML = `<span>Músculo esquelético:</span> <span class="font-bold text-rose-700">Escalofríos reflejos (Termogénesis tiritante)</span>`;
+                } else if (amb > 28) {
+                    tempBadge.innerText = (37.0 + (amb - 28) * 0.04).toFixed(1) + "°C";
+                    tempBadge.className = "text-lg font-bold code-font text-rose-700 animate-pulse";
+                    vaso.innerHTML = `<span>Tono vascular cutáneo:</span> <span class="font-bold text-rose-700">Vasodilatación cutánea masiva</span>`;
+                    sweat.innerHTML = `<span>Glándulas sudoríparas:</span> <span class="font-bold text-cyan-700">Diaforesis profusa (enfriamiento evaporativo)</span>`;
+                    muscle.innerHTML = `<span>Músculo esquelético:</span> <span class="font-semibold text-gray-500">Hipotonía refleja para limitar calor</span>`;
+                } else {
+                    tempBadge.innerText = "37.0°C";
+                    tempBadge.className = "text-lg font-bold code-font text-emerald-700";
+                    vaso.innerHTML = `<span>Tono vascular cutáneo:</span> <span class="font-semibold text-emerald-700">Tono basal equilibrado</span>`;
+                    sweat.innerHTML = `<span>Glándulas sudoríparas:</span> <span class="font-semibold text-gray-600">Inactivas (pérdida insensible)</span>`;
+                    muscle.innerHTML = `<span>Músculo esquelético:</span> <span class="font-semibold text-gray-600">Tono muscular de reposo</span>`;
+                }
+            },
+            setAcidBase(preset) {
+                const phBadge = document.getElementById('currentPhBadge');
+                const pco2 = document.getElementById('pco2Val');
+                const hco3 = document.getElementById('hco3Val');
+                const comp = document.getElementById('compensationStatus');
+
+                ['hypovent', 'hypervent', 'keto', 'normal'].forEach(p => {
+                    const btn = document.getElementById(`ab-btn-${p}`);
+                    if (btn) {
+                        if (p === preset) {
+                            btn.className = "p-2 rounded-lg bg-accent-light border-2 border-accent text-left transition shadow-sm";
+                        } else {
+                            btn.className = "p-2 rounded-lg bg-gray-50 border border-gray-200 text-left hover:border-accent transition";
+                        }
+                    }
+                });
+
+                if (preset === 'hypovent') {
+                    phBadge.innerText = "pH 7.26 (Acidosis)";
+                    phBadge.className = "text-lg font-bold code-font text-rose-700 animate-pulse";
+                    pco2.innerText = "58 mmHg (Elevada)";
+                    hco3.innerText = "26 mEq/L (Normal)";
+                    comp.innerText = "Compensación renal lenta: Secreción tubular de H⁺ y reabsorción neta de HCO₃⁻.";
+                } else if (preset === 'hypervent') {
+                    phBadge.innerText = "pH 7.55 (Alcalosis)";
+                    phBadge.className = "text-lg font-bold code-font text-cyan-700 animate-pulse";
+                    pco2.innerText = "25 mmHg (Disminuida)";
+                    hco3.innerText = "22 mEq/L";
+                    comp.innerText = "Compensación renal: Aumento de la excreción urinaria de bicarbonato libre (HCO₃⁻).";
+                } else if (preset === 'keto') {
+                    phBadge.innerText = "pH 7.18 (Acidosis severa)";
+                    phBadge.className = "text-lg font-bold code-font text-amber-700 animate-pulse";
+                    pco2.innerText = "28 mmHg (Disminuida)";
+                    hco3.innerText = "11 mEq/L (Consumido)";
+                    comp.innerText = "Compensación respiratoria rápida: Hiperventilación de Kussmaul para barrer CO₂.";
+                } else {
+                    phBadge.innerText = "pH 7.40";
+                    phBadge.className = "text-lg font-bold code-font text-emerald-700";
+                    pco2.innerText = "40 mmHg";
+                    hco3.innerText = "24 mEq/L";
+                    comp.innerText = "Equilibrio ácido-base homeostático fisiológico.";
+                }
+                setTimeout(renderLatex, 20);
+            }
+        };
+
+        // MÓDULO 4: MINI CANVASES MUSCULARES ANIMADOS CON FRECUENCIA DIFERENCIAL
+        const Module4 = {
+            currentSys: 0,
+            animId: null,
+            time: 0,
+            init() {
+                this.renderList();
+                this.selectSystem(0);
+                this.startLoop();
+            },
+            startLoop() {
+                if (this.animId) cancelAnimationFrame(this.animId);
+                const self = this;
+                function loop() {
+                    self.time += 0.04;
+                    self.drawMuscleThumbnails();
+                    self.animId = requestAnimationFrame(loop);
+                }
+                this.animId = requestAnimationFrame(loop);
+            },
+            stopLoop() {
+                if (this.animId) {
+                    cancelAnimationFrame(this.animId);
+                    this.animId = null;
+                }
+            },
+            renderList() {
+                const container = document.getElementById('systems-selector-list');
+                container.innerHTML = systemsData.map((sys, idx) => `
+                    <button onclick="Module4.selectSystem(${idx})" id="btn-sys-${idx}" class="w-full text-left p-2.5 rounded-xl bg-gray-50 border border-gray-200 hover:border-accent transition flex items-center justify-between group">
+                        <div class="flex items-center gap-2.5">
+                            <div class="w-7 h-7 rounded-lg bg-white border border-gray-200 text-gray-700 flex items-center justify-center text-xs group-hover:bg-accent group-hover:text-white transition">
+                                <i class="fa-solid ${sys.icon}"></i>
+                            </div>
+                            <div>
+                                <div class="text-xs font-bold text-gray-900 group-hover:text-accent transition">${sys.name}</div>
+                                <div class="text-[10px] text-gray-500 truncate max-w-[150px]">${sys.badge}</div>
+                            </div>
+                        </div>
+                        <i class="fa-solid fa-chevron-right text-gray-400 text-xs"></i>
+                    </button>
+                `).join('');
+            },
+            selectSystem(index) {
+                this.currentSys = index;
+                systemsData.forEach((_, idx) => {
+                    const b = document.getElementById(`btn-sys-${idx}`);
+                    if (b) {
+                        if (idx === index) {
+                            b.className = "w-full text-left p-2.5 rounded-xl bg-accent-light border-2 border-accent transition flex items-center justify-between shadow-sm";
+                        } else {
+                            b.className = "w-full text-left p-2.5 rounded-xl bg-gray-50 border border-gray-200 hover:border-accent transition flex items-center justify-between";
+                        }
+                    }
+                });
+
+                const sys = systemsData[index];
+                const container = document.getElementById('system-details-container');
+                container.innerHTML = `
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-gray-100">
+                        <div class="flex items-center gap-3">
+                            <div class="w-12 h-12 rounded-2xl bg-accent-light text-accent flex items-center justify-center text-2xl border border-accent/20 shadow-sm">
+                                <i class="fa-solid ${sys.icon}"></i>
+                            </div>
+                            <div>
+                                <span class="text-[10px] font-bold uppercase tracking-wider text-accent bg-accent-light px-2 py-0.5 rounded border border-accent/20">${sys.badge}</span>
+                                <h3 class="text-lg font-bold text-gray-900 mt-1">${sys.name}</h3>
+                            </div>
+                        </div>
+                        <span class="text-xs px-2.5 py-1 rounded-full bg-gray-100 text-gray-700 font-semibold border border-gray-200">Cátedra de Ingreso</span>
+                    </div>
+
+                    <div class="space-y-1.5">
+                        <h4 class="text-xs font-bold text-gray-700 uppercase tracking-wider">Órganos Constituyentes y Estructuras Clave:</h4>
+                        <p class="text-xs text-gray-700 bg-gray-50 p-3 rounded-xl border border-gray-200 leading-relaxed">${sys.organs}</p>
+                    </div>
+
+                    <div class="space-y-1.5">
+                        <h4 class="text-xs font-bold text-gray-700 uppercase tracking-wider">Funciones Fisiológicas Principales:</h4>
+                        <ul class="space-y-1.5">
+                            ${sys.functions.map(f => `
+                                <li class="flex items-start gap-2 text-xs text-gray-700">
+                                    <i class="fa-solid fa-circle-check text-accent mt-0.5 text-[11px]"></i>
+                                    <span class="leading-relaxed">${f}</span>
+                                </li>
+                            `).join('')}
+                        </ul>
+                    </div>
+
+                    <div class="p-3.5 rounded-xl bg-accent-light border border-accent/20 space-y-1">
+                        <div class="text-xs font-bold text-accent flex items-center gap-1.5">
+                            <i class="fa-solid fa-stethoscope"></i> Correlación Clínica para el Examen de Ingreso:
+                        </div>
+                        <p class="text-xs text-gray-800 leading-relaxed">${sys.clinicalLink}</p>
+                    </div>
+                `;
+                setTimeout(renderLatex, 40);
+            },
+            drawMuscleThumbnails() {
+                // 1. Esquelético: Contracción tetánica rápida y voluntaria
+                const c1 = document.getElementById('muscleSkelCanvas');
+                if (c1) {
+                    const ctx1 = c1.getContext('2d');
+                    ctx1.clearRect(0, 0, c1.width, c1.height);
+                    const skelContract = Math.sin(this.time * 4) * 2;
+                    ctx1.fillStyle = '#881337';
+                    ctx1.fillRect(0, 10, c1.width, 70);
+
+                    const stepX = 12 + skelContract;
+                    for (let x = 0; x < c1.width; x += stepX) {
+                        ctx1.fillStyle = '#fb7185';
+                        ctx1.fillRect(x, 10, stepX * 0.5, 70);
+                    }
+                    ctx1.fillStyle = '#67e8f9';
+                    ctx1.beginPath();
+                    ctx1.arc(30, 15, 4.5, 0, Math.PI * 2);
+                    ctx1.arc(c1.width - 40, 75, 4.5, 0, Math.PI * 2);
+                    ctx1.fill();
+                }
+
+                // 2. Cardíaco: Latido miocárdico sincronizado (~75 lpm)
+                const c2 = document.getElementById('muscleCardCanvas');
+                if (c2) {
+                    const ctx2 = c2.getContext('2d');
+                    ctx2.clearRect(0, 0, c2.width, c2.height);
+                    const heartBeat = Math.sin(this.time * 3);
+                    const heartScale = 1 + (heartBeat > 0.5 ? 0.08 : 0);
+
+                    ctx2.fillStyle = '#9f1239';
+                    ctx2.fillRect(0, 15, c2.width, 60);
+
+                    // Discos intercalares
+                    ctx2.strokeStyle = '#f43f5e';
+                    ctx2.lineWidth = 2.5;
+                    for (let x = 30; x < c2.width; x += 55) {
+                        ctx2.beginPath();
+                        ctx2.moveTo(x, 15);
+                        ctx2.lineTo(x, 75);
+                        ctx2.stroke();
+                    }
+                    // Núcleos centrales pulsantes
+                    ctx2.fillStyle = '#67e8f9';
+                    ctx2.beginPath();
+                    ctx2.ellipse(c2.width * 0.45, 45, 10 * heartScale, 6 * heartScale, 0, 0, Math.PI * 2);
+                    ctx2.fill();
+                }
+
+                // 3. Liso: Onda peristáltica lenta y progresiva
+                const c3 = document.getElementById('muscleSmoothCanvas');
+                if (c3) {
+                    const ctx3 = c3.getContext('2d');
+                    ctx3.clearRect(0, 0, c3.width, c3.height);
+                    for (let i = 0; i < 4; i++) {
+                        const wavePhase = this.time * 1.5 - i * 0.8;
+                        const squeeze = 1 + Math.sin(wavePhase) * 0.15;
+                        const sx = 15 + i * 50;
+
+                        ctx3.fillStyle = '#065f46';
+                        ctx3.beginPath();
+                        ctx3.ellipse(sx, 45, 38 * (2 - squeeze), 12 * squeeze, 0, 0, Math.PI * 2);
+                        ctx3.fill();
+
+                        ctx3.fillStyle = '#34d399';
+                        ctx3.beginPath();
+                        ctx3.ellipse(sx, 45, 7, 3.5 * squeeze, 0, 0, Math.PI * 2);
+                        ctx3.fill();
+                    }
+                }
+            }
+        };
+
+        // Inicialización General
+        window.addEventListener('DOMContentLoaded', () => {
+            Module1.init();
+            Module2.init();
+            Module4.init();
+            renderLatex();
+        });
+    </script>
+</body>
+</html>
